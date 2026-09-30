@@ -5,8 +5,8 @@
   <Project Path="MoreMountains.InventoryEngine.csproj" />
   <Project Path="MoreMountains.Interface.csproj" />
   <Project Path="AppModuleCommon.Editor.csproj" />
-  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="MoreMountains.InventoryEngine.Editor.csproj" />
   <Project Path="AppModuleSoundSystem.csproj" />
   <Project Path="AppModuleCommon.csproj" />

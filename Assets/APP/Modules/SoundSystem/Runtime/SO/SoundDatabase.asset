@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: bgm
     items:
     - key: BGM_Home
-      value: {fileID: 8300000, guid: 9eb5674d7d7a543298f240c3e723c64b, type: 3}
+      value: {fileID: 0}
       type: 0
   - id: sfx
     items:

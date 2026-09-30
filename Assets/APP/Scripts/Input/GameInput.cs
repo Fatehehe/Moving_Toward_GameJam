@@ -131,6 +131,16 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""ScreenPos"",
+                    ""type"": ""Value"",
+                    ""id"": ""c0c65989-34dd-4ca2-8cc2-184947c16b42"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -177,6 +187,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3aec9176-5462-4380-b03e-54daebac4809"",
+                    ""path"": ""<Pointer>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScreenPos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -218,6 +239,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_RightPress = m_Player.FindAction("RightPress", throwIfNotFound: true);
         m_Player_LeftPress = m_Player.FindAction("LeftPress", throwIfNotFound: true);
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
+        m_Player_ScreenPos = m_Player.FindAction("ScreenPos", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -306,6 +328,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RightPress;
     private readonly InputAction m_Player_LeftPress;
     private readonly InputAction m_Player_Scroll;
+    private readonly InputAction m_Player_ScreenPos;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -333,6 +356,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Scroll".
         /// </summary>
         public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ScreenPos".
+        /// </summary>
+        public InputAction @ScreenPos => m_Wrapper.m_Player_ScreenPos;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -371,6 +398,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
+            @ScreenPos.started += instance.OnScreenPos;
+            @ScreenPos.performed += instance.OnScreenPos;
+            @ScreenPos.canceled += instance.OnScreenPos;
         }
 
         /// <summary>
@@ -394,6 +424,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
+            @ScreenPos.started -= instance.OnScreenPos;
+            @ScreenPos.performed -= instance.OnScreenPos;
+            @ScreenPos.canceled -= instance.OnScreenPos;
         }
 
         /// <summary>
@@ -558,6 +591,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScreenPos" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScreenPos(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

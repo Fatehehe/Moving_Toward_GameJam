@@ -48,7 +48,7 @@ public class ProjectAudioService : IInitializable, IStartable, IDisposable
 
     void IStartable.Start()
     {
-        HandleOnPlayBGMMainMenu();
+        // HandleOnPlayBGMMainMenu();
     }
 
     public void PlaySFX(AudioKey audioType)

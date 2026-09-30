@@ -6,9 +6,12 @@ using VContainer.Unity;
 public class ProjectLifetimeScope : LifetimeScope
 {
     [SerializeField] private SoundSystem soundSystem;
+    [SerializeField] private GameConfigData gameConfigData;
 
     protected override void Configure(IContainerBuilder builder)
     {
+        builder.RegisterInstance(gameConfigData);
+
         // Core systems
         SoundSystem soundSystemInstance = Instantiate(soundSystem, transform);
         builder.RegisterComponent(soundSystemInstance).AsSelf();
