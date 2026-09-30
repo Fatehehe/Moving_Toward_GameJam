@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Project Path="AppModuleStatePattern.csproj" />
+  <Project Path="AppModuleCommon.Editor.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+  <Project Path="AppModuleSoundSystem.csproj" />
+  <Project Path="AppModuleCommon.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="SimpleJSON.csproj" />
+  <Project Path="AppModuleSoundSystem.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>

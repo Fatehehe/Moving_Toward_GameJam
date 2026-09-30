@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da8d5104c624f742b96287ece7261af, type: 3}
+  m_Name: SoundDatabase
+  m_EditorClassIdentifier: 
+  sounds:
+  - id: bgm
+    items:
+    - key: BGM_Home
+      value: {fileID: 8300000, guid: 9eb5674d7d7a543298f240c3e723c64b, type: 3}
+      type: 0
+  - id: sfx
+    items:
+    - key: SFX_Assemble
+      value: {fileID: 8300000, guid: eed1467d96c734c0d973df694994c274, type: 3}
+      type: 1
+    - key: SFX_Camera
+      value: {fileID: 8300000, guid: c241abf19b997694e88ecc3127ffb029, type: 3}
+      type: 1
+    - key: SFX_Brush
+      value: {fileID: 8300000, guid: dcdf9a00707ad4fdf96552b6a3163d15, type: 3}
+      type: 1
+    - key: SFX_Chisel
+      value: {fileID: 8300000, guid: 24f8029b14dd54306a5b97ab5f288a0c, type: 3}
+      type: 1
+    - key: SFX_Finish
+      value: {fileID: 8300000, guid: 0c353ebf1e00d4cafbda08945bf21dcc, type: 3}
+      type: 1
+  - id: ui
+    items:
+    - key: UI_Click
+      value: {fileID: 8300000, guid: adcf3b2b5883d0e40a342c48e94f8b6b, type: 3}
+      type: 2
+    - key: UI_Hover
+      value: {fileID: 8300000, guid: adcf3b2b5883d0e40a342c48e94f8b6b, type: 3}
+      type: 2
+    - key: UI_Cancel
+      value: {fileID: 8300000, guid: adcf3b2b5883d0e40a342c48e94f8b6b, type: 3}
+      type: 2
+    - key: UI_Hover_Paper
+      value: {fileID: 8300000, guid: 53c0e558172e2b340af5835d9c12a7ad, type: 3}
+      type: 2
+  randomizePitchForDuplicates: 1
+  minPitch: 0.75
+  maxPitch: 1.25
