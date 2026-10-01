@@ -1,16 +1,39 @@
+using DG.Tweening;
 using UnityEngine;
 
-public class ToyIdleState : MonoBehaviour
+public class ToyIdleState : ToyBaseState, IDraggable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public ToyIdleState(ToyStateMachine stateMachine) : base(stateMachine) { }
+
+    public override void Enter()
     {
-        
+        stateMachine.ResetTransform();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
     {
-        
+
     }
+    public override void Tick(float deltaTime)
+    {
+
+    }
+
+    public void OnDragStarted(Vector3 worldPos)
+    {
+        stateMachine.transform.DOKill();
+        stateMachine.transform.DOMove(worldPos, .5f).SetEase(Ease.OutCubic);
+    }
+
+    public void OnDragPerformed(Vector3 worldPos)
+    {
+        stateMachine.transform.DOKill();
+        stateMachine.transform.DOMove(worldPos, .5f).SetEase(Ease.OutCubic);
+    }
+
+    public void OnDragEnded(Vector3 worldPos)
+    {
+        // stateMachine.SwitchState(new ArtefactPieceReturningState(stateMachine));
+    }
+
 }

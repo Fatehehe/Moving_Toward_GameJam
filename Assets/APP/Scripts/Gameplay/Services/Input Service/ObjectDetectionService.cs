@@ -44,6 +44,12 @@ public class ObjectDetectionService : IInitializable, IDisposable
         {
             currentInteractable?.OnInteractEnded();
             currentInteractable = newTarget;
+
+            // if (currentInteractable != null)
+            // {
+            //     Debug.Log("detecting object: " + currentInteractable.GetType().Name);
+            // }
+
             currentInteractable?.OnInteractDetected();
             OnInteractDetected?.Invoke(currentInteractable);
         }
