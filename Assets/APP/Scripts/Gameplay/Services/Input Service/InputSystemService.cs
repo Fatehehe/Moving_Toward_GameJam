@@ -26,37 +26,58 @@ public class InputSystemService : IInitializable, IDisposable, ITickable
 
     public void Initialize()
     {
-        Input.Player.LeftPress.started += HandleLeftPressStarted;
-        Input.Player.LeftPress.canceled += HandleLeftPressCanceled;
+        ChangeInputState(InputStateType.Player);
+
+        Input.Player.Press.started += HandleLeftPressStarted;
+        Input.Player.Press.canceled += HandleLeftPressCanceled;
 
         Input.Player.RightPress.started += HandleRightPressStarted;
         Input.Player.RightPress.canceled += HandleRightPressCanceled;
 
         Input.Player.ScreenPos.performed += HandleMouseMove;
+
+        Input.Player.Scroll.performed += HandleScrollPerformed;
     }
 
     public void Dispose()
     {
-        Input.Player.LeftPress.started -= HandleLeftPressStarted;
-        Input.Player.LeftPress.canceled -= HandleLeftPressCanceled;
+        Input.Player.Press.started -= HandleLeftPressStarted;
+        Input.Player.Press.canceled -= HandleLeftPressCanceled;
 
         Input.Player.RightPress.started -= HandleRightPressStarted;
         Input.Player.RightPress.canceled -= HandleRightPressCanceled;
 
         Input.Player.ScreenPos.performed -= HandleMouseMove;
+
+        Input.Player.Scroll.performed -= HandleScrollPerformed;
     }
+
 
     public void Tick()
     {
 
     }
 
-    private void HandleMouseMove(InputAction.CallbackContext context) => OnMouseMoved.Invoke(context.ReadValue<Vector2>());
+    private void HandleMouseMove(InputAction.CallbackContext context)
+    {
+        OnMouseMoved?.Invoke(context.ReadValue<Vector2>());
+    }
 
-    private void HandleLeftPressStarted(InputAction.CallbackContext context) => OnLeftPressStarted.Invoke(context.ReadValue<Vector2>());
-    private void HandleLeftPressCanceled(InputAction.CallbackContext context) => OnLeftPressEnded.Invoke(context.ReadValue<Vector2>());
+    private void HandleLeftPressStarted(InputAction.CallbackContext context)
+    {
+        Vector2 currentPos = Input.Player.ScreenPos.ReadValue<Vector2>();
+        OnLeftPressStarted?.Invoke(currentPos);
+    }
 
-    private void HandleRightPressStarted(InputAction.CallbackContext context) => OnRightPressStarted.Invoke();
-    private void HandleRightPressCanceled(InputAction.CallbackContext context) => OnRightPressEnded.Invoke();
+    private void HandleLeftPressCanceled(InputAction.CallbackContext context)
+    {
+        Vector2 currentPos = Input.Player.ScreenPos.ReadValue<Vector2>();
+        OnLeftPressEnded?.Invoke(currentPos);
+    }
 
+    private void HandleScrollPerformed(InputAction.CallbackContext context) => OnScrollPerformed?.Invoke(context.ReadValue<float>());
+    private void HandleRightPressStarted(InputAction.CallbackContext context) => OnRightPressStarted?.Invoke();
+    private void HandleRightPressCanceled(InputAction.CallbackContext context) => OnRightPressEnded?.Invoke();
+
+    public void ChangeInputState(InputStateType state) => inputSystem.ChangeInputState(state);
 }

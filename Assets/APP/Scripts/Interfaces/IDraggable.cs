@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IDragObject
+public interface IDraggable
 {
     void OnDragStarted(Vector3 worldPos);
     void OnDragPerformed(Vector3 worldPos);

@@ -3,6 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = nameof(GameConfigData), menuName = "App/Data/Game Config Data")]
 public class GameConfigData : ScriptableObject
 {
+    [Header("Inspection Zoom and Rotate")]
+    public float smoothTime = 0.1f;
+    public float maxZoomSpeed = 50f;
+    public float minZoomDistance = 2f;
+    public float zoomStepMultiplier = 0.05f;
+
     [Header("Input & Game Feel")]
     public float scrollSensitivity = 10f;
     public float rotateSensitivity = 0.2f;
