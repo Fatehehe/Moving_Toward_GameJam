@@ -19,6 +19,8 @@ public class GameplayLifetimeScope : LifetimeScope
 
         builder.RegisterEntryPoint<ObjectInteractionManager>(Lifetime.Scoped).AsSelf();
 
+        builder.RegisterEntryPoint<PartService>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<AssemblyService>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ToyManager>(Lifetime.Scoped).AsSelf();
     }
 }

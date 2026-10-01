@@ -18,6 +18,10 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     public event Action<IInteractable, Vector3> OnDragPerformed;
     public event Action<IInteractable, Vector3> OnDragEnded;
 
+    public event Action<IInteractable> OnHoldCompleted;
+    public event Action<IInteractable, float> OnHoldPerformed;
+    public event Action<IInteractable> OnHoldCanceled;
+
     [Inject]
     public ObjectInteractionManager(ObjectDetectionService detectionService, ObjectPressService press, ObjectDragService swipe)
     {
@@ -32,6 +36,9 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
         pressService.OnPressStarted += HandlePressStarted;
         pressService.OnPressEnded += HandlePressEnded;
+        pressService.OnHoldCompleted += HandleHoldCompleted;
+        pressService.OnHoldPerformed += HandleHoldPerformed;
+        pressService.OnHoldCanceled += HandleHoldCanceled;
 
         dragService.OnDragStarted += HandleDragStart;
         dragService.OnDragPerformed += HandleDragPerformed;
@@ -44,11 +51,15 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
         pressService.OnPressStarted -= HandlePressStarted;
         pressService.OnPressEnded -= HandlePressEnded;
+        pressService.OnHoldCompleted -= HandleHoldCompleted;
+        pressService.OnHoldPerformed -= HandleHoldPerformed;
+        pressService.OnHoldCanceled -= HandleHoldCanceled;
 
         dragService.OnDragStarted -= HandleDragStart;
         dragService.OnDragPerformed -= HandleDragPerformed;
         dragService.OnDragEnded -= HandleDragEnded;
     }
+
 
     public void ForceDropCurrentObject()
     {
@@ -89,6 +100,24 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     {
         OnPressEnd?.Invoke();
         detectionService.SetInteractObjectUsed(false);
+    }
+
+    private void HandleHoldPerformed(float value)
+    {
+        if (!IsInteractValid()) return;
+        OnHoldPerformed?.Invoke(currentInteract, value);
+    }
+
+    private void HandleHoldCompleted()
+    {
+        if (!IsInteractValid()) return;
+        OnHoldCompleted?.Invoke(currentInteract);
+    }
+
+    private void HandleHoldCanceled()
+    {
+        if (!IsInteractValid()) return;
+        OnHoldCanceled?.Invoke(currentInteract);
     }
 
     private void HandleDragStart(Vector2 vector)

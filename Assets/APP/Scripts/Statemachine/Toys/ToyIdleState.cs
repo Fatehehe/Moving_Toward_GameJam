@@ -33,7 +33,7 @@ public class ToyIdleState : ToyBaseState, IDraggable
 
     public void OnDragEnded(Vector3 worldPos)
     {
-        // stateMachine.SwitchState(new ArtefactPieceReturningState(stateMachine));
+        stateMachine.SwitchState(new ToyReturnState(stateMachine));
     }
 
 }

@@ -10,7 +10,12 @@ public class Inspection : MonoBehaviour
 
     private Vector3 targetPosition;
     private Vector3 zoomVelocity = Vector3.zero;
+
     private float initialDistance;
+    private Vector3 InitialInspectPosition;
+    private Quaternion InitialInspectRotation;
+
+    private bool isContain = false;
 
     [Inject]
     public void Construct(ObjectRotateService rotateService, ObjectZoomService zoomService, GameConfigData gameConfigData, Camera camera)
@@ -24,6 +29,8 @@ public class Inspection : MonoBehaviour
     private void Start()
     {
         targetPosition = transform.position;
+        InitialInspectPosition = transform.position;
+        InitialInspectRotation = transform.rotation;
 
         if (camera != null)
         {
@@ -82,6 +89,9 @@ public class Inspection : MonoBehaviour
     public void ResetTransform()
     {
         targetPosition = camera.transform.position + (camera.transform.forward * initialDistance);
-        transform.rotation = Quaternion.identity;
+        transform.SetPositionAndRotation(InitialInspectPosition, InitialInspectRotation);
     }
+
+    public void SetInspectionUsage(bool status) => isContain = status;
+
 }
