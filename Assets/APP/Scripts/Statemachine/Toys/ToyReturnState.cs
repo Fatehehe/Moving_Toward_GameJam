@@ -20,9 +20,7 @@ public class ToyReturnState : ToyBaseState
             stateMachine.SwitchState(new ToyIdleState(stateMachine));
         });
     }
-
     public override void Tick(float deltaTime) { }
-
     public override void Exit()
     {
         returnSequence?.Kill();

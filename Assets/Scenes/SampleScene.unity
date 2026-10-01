@@ -675,7 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToyStateMachine
   InitialPosition: {x: 0, y: 0, z: 0}
   InitialRotation: {x: 0, y: 0, z: 0, w: 0}
-  pieceId: 
+  pieceId: Part1
   parentSlot:
     parentId: 
     isOccupied: 0
@@ -713,9 +713,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToyStateMachine
   InitialPosition: {x: 0, y: 0, z: 0}
   InitialRotation: {x: 0, y: 0, z: 0, w: 0}
-  pieceId: 
+  pieceId: Part3
   parentSlot:
-    parentId: 
+    parentId: Part2
     isOccupied: 0
 --- !u!65 &623702230
 BoxCollider:
@@ -893,9 +893,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToyStateMachine
   InitialPosition: {x: 0, y: 0, z: 0}
   InitialRotation: {x: 0, y: 0, z: 0, w: 0}
-  pieceId: 
+  pieceId: Part2
   parentSlot:
-    parentId: 
+    parentId: Part1
     isOccupied: 0
 --- !u!65 &1668722389
 BoxCollider:

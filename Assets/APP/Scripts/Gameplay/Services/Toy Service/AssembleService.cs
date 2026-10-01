@@ -13,9 +13,7 @@ public class AssemblyService : IInitializable, IDisposable
     public Transform GetInspectPoint() => inspection.transform;
 
     private readonly GameConfigData config;
-
     private readonly List<IToyPart> currentAssembleList = new();
-
     public bool isToySlotAvailable = false;
 
     [Inject]
@@ -27,13 +25,8 @@ public class AssemblyService : IInitializable, IDisposable
         this.camera = cam;
     }
 
-    public void Initialize()
-    {
-    }
-
-    public void Dispose()
-    {
-    }
+    public void Initialize() { }
+    public void Dispose() { }
 
     public bool TryCheckSlot(IToyPart toyPart, Vector3 worldPos)
     {
@@ -63,12 +56,11 @@ public class AssemblyService : IInitializable, IDisposable
         if (IsInspectEmpty())
         {
             currentAssembleList.Add(toyPart);
-
             toyPart.GetTransform().SetParent(inspection.transform);
             toyPart.OnAssembled(inspection.transform);
-
             inspection.SetInspectionUsage(true);
-            partService.ProgressUpdate();
+
+            partService.ProgressUpdate(currentAssembleList.Count);
 
             return true;
         }
@@ -80,7 +72,10 @@ public class AssemblyService : IInitializable, IDisposable
                 currentAssembleList.Add(toyPart);
                 toyPart.GetTransform().SetParent(inspection.transform);
                 toyPart.OnAssembled(outermostPart.GetTransform());
-                partService.ProgressUpdate();
+
+                // UPDATE: Kirim jumlah list saat ini
+                partService.ProgressUpdate(currentAssembleList.Count);
+
                 return true;
             }
         }
@@ -110,7 +105,8 @@ public class AssemblyService : IInitializable, IDisposable
             inspection.SetInspectionUsage(false);
         }
 
-        partService.ProgressUpdate();
+        partService.ProgressUpdate(currentAssembleList.Count);
+
         return true;
     }
 
