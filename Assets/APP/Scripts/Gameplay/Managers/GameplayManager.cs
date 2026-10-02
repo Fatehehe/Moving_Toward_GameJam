@@ -6,7 +6,7 @@ using VContainer.Unity;
 public class GameplayManager : IInitializable, IDisposable
 {
     [Header("Target Scene")]
-    private string targetScene = "Splash";
+    private string targetScene = "Ending";
     private GameplayUIManager uiManager;
     private InputSystemService input;
     private GameConfigData config;

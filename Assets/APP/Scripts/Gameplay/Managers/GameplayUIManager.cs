@@ -1,4 +1,5 @@
 using System;
+using System.Collections; // Wajib ditambahkan untuk IEnumerator (Coroutine)
 using UnityEngine;
 using VContainer;
 
@@ -21,15 +22,22 @@ public class GameplayUIManager : MonoBehaviour
 
     private void Start()
     {
-        // Munculkan dialog pertama (Index 0) saat game mulai
-        ShowDialogueUI(0);
+        endGameUIController.SetActive(false);
+        gameplayUIController.SetActive(false);
+        dialogueUIController.SetActive(false);
+        StartCoroutine(ShowDialogueDelayed(0, 2f));
+    }
+
+    private IEnumerator ShowDialogueDelayed(int index, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        ShowDialogueUI(index);
     }
 
     private void OnEnable()
     {
         GameEvents.OnTutorialCompleted += HandleTutorialCompleted;
 
-        // Mendaftarkan trigger tutorial lainnya
         GameEvents.OnFirstInspect += HandleFirstInspect;
         GameEvents.OnFirstSurfaceCleaned += HandleFirstSurfaceCleaned;
         GameEvents.OnCleaningFinished += HandleCleaningFinished;
@@ -46,7 +54,6 @@ public class GameplayUIManager : MonoBehaviour
         GameEvents.OnAssemblingFinished -= HandleAssemblingFinished;
     }
 
-    // --- FUNGSI TRIGGER TUTORIAL ---
     private void HandleFirstInspect() => ShowDialogueUI(1);
     private void HandleFirstSurfaceCleaned() => ShowDialogueUI(2);
     private void HandleCleaningFinished() => ShowDialogueUI(3);
@@ -56,8 +63,6 @@ public class GameplayUIManager : MonoBehaviour
     {
         input.ChangeInputState(InputStateType.Player);
 
-        // Jika tutorial yang selesai adalah tutorial terakhir (Assemble 100%),
-        // Langsung munculkan Endgame UI, jangan balik ke Gameplay UI.
         if (index == 4)
         {
             ShowEndgameUI();
