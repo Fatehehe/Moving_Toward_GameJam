@@ -18,7 +18,7 @@ public class ObjectPressService : IInitializable, IDisposable, ITickable
     public event Action OnPressStarted;
     public event Action OnPressEnded;
 
-    public event Action<float> OnHoldPerformed;
+    public event Action<float, Vector2> OnHoldPerformed;
     public event Action OnHoldCompleted;
     public event Action OnHoldCanceled;
 
@@ -64,7 +64,7 @@ public class ObjectPressService : IInitializable, IDisposable, ITickable
 
         float holdTime = heldTime - config.holdDelay;
 
-        OnHoldPerformed?.Invoke(holdTime);
+        OnHoldPerformed?.Invoke(holdTime, inputSystemService.GetMousePosition());
 
         if (holdTime >= config.holdDuration)
         {

@@ -36,13 +36,10 @@ public class SurfaceDetectionService
 
         if (CleanableSurface != null && CleanableSurface.IsCleanable())
         {
-            Debug.Log("berhasil raycast");
-
             HasHit = true;
             EssentialDetecting(hit);
             return true;
         }
-        Debug.Log($"gagal raycast {CleanableSurface.IsCleanable()}");
 
         return false;
     }

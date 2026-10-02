@@ -21,7 +21,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     public event Action<IInteractable, Vector3> OnDragEnded;
 
     public event Action<IInteractable> OnHoldCompleted;
-    public event Action<IInteractable, float> OnHoldPerformed;
+    public event Action<IInteractable, float, Vector2> OnHoldPerformed;
     public event Action<IInteractable> OnHoldCanceled;
 
     [Inject]
@@ -105,10 +105,10 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         detectionService.SetInteractObjectUsed(false);
     }
 
-    private void HandleHoldPerformed(float value)
+    private void HandleHoldPerformed(float value, Vector2 screenPos)
     {
         if (!IsInteractValid()) return;
-        OnHoldPerformed?.Invoke(currentInteract, value);
+        OnHoldPerformed?.Invoke(currentInteract, value, screenPos);
     }
 
     private void HandleHoldCompleted()
@@ -122,8 +122,6 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         if (!IsInteractValid()) return;
         OnHoldCanceled?.Invoke(currentInteract);
     }
-
-    // --- LOGIKA DRAG UPDATE ---
 
     private void HandleDragStart(Vector2 vector)
     {

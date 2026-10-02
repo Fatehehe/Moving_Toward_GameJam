@@ -76,6 +76,8 @@ public class Inspection : MonoBehaviour
 
     private void HandleZoomPerformed(float zoomDelta)
     {
+        if (!isContain) return;
+
         Vector3 direction = (targetPosition - camera.transform.position).normalized;
         float currentDistance = Vector3.Distance(camera.transform.position, targetPosition);
 
