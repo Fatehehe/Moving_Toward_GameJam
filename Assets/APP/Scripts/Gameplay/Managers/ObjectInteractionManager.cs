@@ -8,6 +8,8 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     private readonly ObjectDetectionService detectionService;
     private readonly ObjectPressService pressService;
     private readonly ObjectDragService dragService;
+    private readonly Inspection inspection;
+    private readonly Camera camera;
 
     private IInteractable currentInteract;
 
@@ -23,11 +25,13 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     public event Action<IInteractable> OnHoldCanceled;
 
     [Inject]
-    public ObjectInteractionManager(ObjectDetectionService detectionService, ObjectPressService press, ObjectDragService swipe)
+    public ObjectInteractionManager(ObjectDetectionService detectionService, ObjectPressService press, ObjectDragService swipe, Inspection inspection, Camera camera)
     {
         this.detectionService = detectionService;
         this.pressService = press;
         this.dragService = swipe;
+        this.inspection = inspection;
+        this.camera = camera;
     }
 
     public void Initialize()
@@ -59,7 +63,6 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         dragService.OnDragPerformed -= HandleDragPerformed;
         dragService.OnDragEnded -= HandleDragEnded;
     }
-
 
     public void ForceDropCurrentObject()
     {
@@ -120,22 +123,21 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         OnHoldCanceled?.Invoke(currentInteract);
     }
 
+    // --- LOGIKA DRAG UPDATE ---
+
     private void HandleDragStart(Vector2 vector)
     {
         if (!IsInteractValid()) return;
 
         detectionService.SetInteractObjectUsed(true);
-        detectionService.CacheDragDepth(currentInteract);
-
-        Vector3 worldPos = detectionService.ScreenToWorld(vector, currentInteract);
+        Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
         OnDragStarted?.Invoke(currentInteract, worldPos);
     }
 
     private void HandleDragPerformed(Vector2 vector)
     {
         if (!IsInteractValid()) return;
-
-        Vector3 worldPos = detectionService.ScreenToWorld(vector, currentInteract);
+        Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
         OnDragPerformed?.Invoke(currentInteract, worldPos);
     }
 
@@ -143,10 +145,25 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     {
         if (IsInteractValid())
         {
-            Vector3 worldPos = detectionService.GetCachedDragWorldPos(vector);
+            Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
             OnDragEnded?.Invoke(currentInteract, worldPos);
         }
 
         detectionService.SetInteractObjectUsed(false);
+    }
+
+    private Vector3 GetInspectionPlaneWorldPosition(Vector2 screenPos)
+    {
+        if (camera == null || inspection == null) return Vector3.zero;
+
+        Ray ray = camera.ScreenPointToRay(screenPos);
+        Plane dragPlane = new(inspection.transform.up, inspection.transform.position);
+
+        if (dragPlane.Raycast(ray, out float distance))
+        {
+            return ray.GetPoint(distance);
+        }
+
+        return Vector3.zero;
     }
 }

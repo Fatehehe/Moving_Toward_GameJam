@@ -5,7 +5,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class AssemblyService : IInitializable, IDisposable
+public class AssembleService : IInitializable, IDisposable
 {
     private readonly Inspection inspection;
     private readonly PartService partService;
@@ -17,7 +17,7 @@ public class AssemblyService : IInitializable, IDisposable
     public bool isToySlotAvailable = false;
 
     [Inject]
-    public AssemblyService(Inspection inspection, PartService partService, GameConfigData config, Camera cam)
+    public AssembleService(Inspection inspection, PartService partService, GameConfigData config, Camera cam)
     {
         this.inspection = inspection;
         this.partService = partService;
@@ -51,8 +51,15 @@ public class AssemblyService : IInitializable, IDisposable
         return false;
     }
 
+    public bool IsPartAssembled(IToyPart part)
+    {
+        return currentAssembleList.Contains(part);
+    }
+
     public bool TryAssemble(IToyPart toyPart)
     {
+        if (IsPartAssembled(toyPart)) return false;
+
         if (IsInspectEmpty())
         {
             currentAssembleList.Add(toyPart);
@@ -72,8 +79,6 @@ public class AssemblyService : IInitializable, IDisposable
                 currentAssembleList.Add(toyPart);
                 toyPart.GetTransform().SetParent(inspection.transform);
                 toyPart.OnAssembled(outermostPart.GetTransform());
-
-                // UPDATE: Kirim jumlah list saat ini
                 partService.ProgressUpdate(currentAssembleList.Count);
 
                 return true;

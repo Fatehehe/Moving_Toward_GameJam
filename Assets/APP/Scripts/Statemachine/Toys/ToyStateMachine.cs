@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ToyStateMachine : StateMachine, IInteractable, IDraggable, IToyPart
+public class ToyStateMachine : StateMachine, IInteractable, IDraggable, IToyPart, ICleanPart
 {
     [SerializeField] private string pieceId;
     [SerializeField] private ParentSlot parentSlot;
@@ -34,4 +34,16 @@ public class ToyStateMachine : StateMachine, IInteractable, IDraggable, IToyPart
     public void ReleaseSlotWith(string otherId) => parentSlot.isOccupied = false;
     public bool IsSlotEmpty() => parentSlot.isOccupied;
 
+    // ICleanPart
+    public bool IsCleanable()
+    {
+        if (currentState is ICleanPart clean)
+        {
+            return clean.IsCleanable();
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

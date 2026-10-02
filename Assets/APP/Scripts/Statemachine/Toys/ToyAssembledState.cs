@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class ToyAssembledState : ToyBaseState, IToyPart
+public class ToyAssembledState : ToyBaseState, IToyPart, ICleanPart
 {
     public Vector3 punchRotation = new Vector3(5, 5, 0);
 
@@ -29,4 +29,7 @@ public class ToyAssembledState : ToyBaseState, IToyPart
     {
         stateMachine.SwitchState(new ToyReturnState(stateMachine));
     }
+
+    // ICleanPart
+    public bool IsCleanable() => true;
 }

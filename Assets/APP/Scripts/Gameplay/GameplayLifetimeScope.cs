@@ -1,3 +1,4 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -20,7 +21,12 @@ public class GameplayLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<ObjectInteractionManager>(Lifetime.Scoped).AsSelf();
 
         builder.RegisterEntryPoint<PartService>(Lifetime.Scoped).AsSelf();
-        builder.RegisterEntryPoint<AssemblyService>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<AssembleService>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ToyManager>(Lifetime.Scoped).AsSelf();
+
+        builder.RegisterEntryPoint<SurfaceDetectionService>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<ToolService>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<CleaningService>(Lifetime.Scoped).AsSelf();
+
     }
 }
