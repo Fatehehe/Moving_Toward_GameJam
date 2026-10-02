@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameplayUIController : BaseMenuController
@@ -6,6 +7,8 @@ public class GameplayUIController : BaseMenuController
     [SerializeField] private GameplayProgressBarUI cleanProgressBarUI;
     [SerializeField] private GameplayProgressBarUI assembleProgressBarUI;
     [SerializeField] private ProgressBarUI holdProgressUI;
+    [SerializeField] private GameObject failedContainer;
+    [SerializeField] private TextMeshProUGUI failedText;
 
     public override void SetActive(bool isActive)
     {

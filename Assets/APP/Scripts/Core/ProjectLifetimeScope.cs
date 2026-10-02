@@ -7,10 +7,14 @@ public class ProjectLifetimeScope : LifetimeScope
 {
     [SerializeField] private SoundSystem soundSystem;
     [SerializeField] private GameConfigData gameConfigData;
+    [SerializeField] protected GameObject loadingPrefab;
 
     protected override void Configure(IContainerBuilder builder)
     {
         builder.RegisterInstance(gameConfigData);
+
+        builder.RegisterEntryPoint<ProjectLoadingService>(Lifetime.Singleton).AsSelf().WithParameter(loadingPrefab);
+        builder.Register<SceneLoader>(Lifetime.Singleton);
 
         // Core systems
         SoundSystem soundSystemInstance = Instantiate(soundSystem, transform);

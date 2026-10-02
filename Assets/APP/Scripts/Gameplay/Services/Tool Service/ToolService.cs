@@ -8,15 +8,13 @@ public class ToolService : IInitializable, IDisposable, ITickable
     private readonly ObjectDetectionService objectDetectionService;
     private readonly SurfaceDetectionService surfaceDetectionService;
     private readonly CleaningService cleaningService;
-
-    // Asumsi dependensi ini tetap ada sesuai struktur arsitektur lamamu
     private readonly InputSystemService inputSystemService;
 
     public bool isCleaning { get; private set; }
     public bool IsOnToolMode => currentToolObject != null;
 
     private IToolObject currentToolObject;
-    private IInteractable currentInteract; // Menggunakan IInteractable dari interface-mu
+    private IInteractable currentInteract;
     private Vector2 mousePos;
 
     private float movementTimer = 0f;
@@ -37,7 +35,6 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     public void Initialize()
     {
-        // Event listeners (Sesuaikan dengan nama event manager-mu, misal InteractionEvents)
         objectDetectionService.OnInteractDetected += HandleObjectDetected;
 
         inputSystemService.OnLeftPressStarted += HandlePressStart;
@@ -57,8 +54,6 @@ public class ToolService : IInitializable, IDisposable, ITickable
     public void Tick()
     {
         if (currentToolObject == null) return;
-
-        // Logika timeout SFX/VFX jika mouse berhenti bergerak saat cleaning
         if (isCleaning)
         {
             if (movementTimer > 0f)

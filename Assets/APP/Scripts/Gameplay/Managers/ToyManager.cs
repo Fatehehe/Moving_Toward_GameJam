@@ -68,8 +68,6 @@ public class ToyManager : IInitializable, IDisposable
     private void HandleHoldPerformed(IInteractable interactable, float holdTime, Vector2 screenPos)
     {
         if (toolService.IsOnToolMode) return;
-
-        // Cache part yang sedang di-hold
         if (currentHoldInteract != interactable)
         {
             currentHoldInteract = interactable;
@@ -78,14 +76,12 @@ public class ToyManager : IInitializable, IDisposable
 
         if (currentHoldPart == null) return;
 
-        // Tampilkan UI pertama kali jika belum muncul
         if (!isHoldingUI)
         {
             isHoldingUI = true;
             ShowHoldProgress(currentHoldPart, screenPos);
         }
 
-        // Kalkulasi nilai normalized (0 sampai 1) untuk progress bar
         float normalized = Mathf.Clamp01(holdTime / config.holdDuration);
         UpdateHoldProgress(currentHoldPart, normalized);
     }
@@ -94,14 +90,11 @@ public class ToyManager : IInitializable, IDisposable
     {
         if (toolService.IsOnToolMode) return;
 
-        // Gunakan part yang sudah di-cache saat hold performed, atau resolve ulang jika null
         IToyPart partToDetach = currentHoldPart ?? ResolveToyPart(interactable);
 
-        // Reset cache
         currentHoldInteract = null;
         currentHoldPart = null;
 
-        // Hilangkan UI Progress
         HideHoldProgress(partToDetach);
         isHoldingUI = false;
 
@@ -118,25 +111,19 @@ public class ToyManager : IInitializable, IDisposable
     {
         if (toolService.IsOnToolMode) return;
 
-        // Hilangkan UI Progress
         HideHoldProgress(currentHoldPart);
         isHoldingUI = false;
 
-        // Reset cache
         currentHoldInteract = null;
         currentHoldPart = null;
 
         if (interactable is IPressable pressable) { pressable.OnHoldCanceled(); }
     }
 
-    // --- 3. HELPER METHOD DIPERBARUI UNTUK MENGAKSES CONTROLLER ---
-
     private void ShowHoldProgress(IToyPart part, Vector2 screenPos)
     {
         if (part == null) return;
         if (!assemblyService.IsPartAssembled(part)) return;
-
-        // Panggil melalui UI Controller
         gameplayUIManager.GameplayUIController.ShowHoldProgress(screenPos);
     }
 
@@ -144,8 +131,6 @@ public class ToyManager : IInitializable, IDisposable
     {
         if (part == null) return;
         if (!assemblyService.IsPartAssembled(part)) return;
-
-        // Panggil melalui UI Controller
         gameplayUIManager.GameplayUIController.UpdateHoldProgress(normalized);
     }
 
@@ -153,12 +138,8 @@ public class ToyManager : IInitializable, IDisposable
     {
         if (part == null) return;
         if (!assemblyService.IsPartAssembled(part)) return;
-
-        // Panggil melalui UI Controller
         gameplayUIManager.GameplayUIController.HideHoldProgress();
     }
-
-    // -------------------------------------------
 
     private void HandleDragStarted(IInteractable interactable, Vector3 vector)
     {

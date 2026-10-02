@@ -7,7 +7,14 @@ using VContainer.Unity;
 public class PartService : IInitializable, IDisposable
 {
     private readonly HashSet<ToyStateMachine> registry = new();
+    private readonly GameplayUIManager gameplayUIManager;
     public event Action<int, int, float> OnProgressUpdate;
+
+    [Inject]
+    public PartService(GameplayUIManager gameplayUIManager)
+    {
+        this.gameplayUIManager = gameplayUIManager;
+    }
 
     public void Initialize() => ToyStateMachine.OnCreated += Register;
     public void Dispose() => ToyStateMachine.OnCreated -= Register;
@@ -21,8 +28,12 @@ public class PartService : IInitializable, IDisposable
     {
         int totalParts = registry.Count;
         if (totalParts == 0) return;
+
         float progressPercentage = (float)assembledCount / totalParts;
-        Debug.Log($"Progress: {assembledCount}/{totalParts} ({(progressPercentage * 100):0.##}%)");
+        // Debug.Log($"Progress: {assembledCount}/{totalParts} ({(progressPercentage * 100):0.##}%)");
+
+        gameplayUIManager.GameplayUIController.UpdateAssembleProgress(progressPercentage);
+
         OnProgressUpdate?.Invoke(assembledCount, totalParts, progressPercentage);
     }
 }

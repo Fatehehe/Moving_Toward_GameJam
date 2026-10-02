@@ -40,7 +40,7 @@ public class ToyIdleState : ToyBaseState, IDraggable, IToyPart
 
     public void OnAssembled(Transform targetTransform)
     {
-        stateMachine.SwitchState(new ToyAssembledState(stateMachine));
+        stateMachine.SwitchState(new ToyMovingState(stateMachine, targetTransform));
     }
 
     public void OnDetached() { }

@@ -8,79 +8,49 @@ using Modules;
 public class CleaningService : IInitializable, IDisposable
 {
     private readonly HashSet<ICleanable> cleanSurfaces = new();
-    private InputSystemService inputSystemService;
-
+    private GameplayUIManager gameplayUIManager;
     public bool isCleaning;
-    private float overallProgress;
 
     public event Action<float> OnSurfaceCleaningUpdate;
 
     [Inject]
-    public void Construct(InputSystemService input)
+    public void Construct(GameplayUIManager uiManager)
     {
-        inputSystemService = input;
+        gameplayUIManager = uiManager;
     }
 
     public void Initialize()
     {
         CleaningSurface.OnCreated += RegisterSurface;
         CleaningSurface.OnForceClean += HandleOnForceClean;
-
-        // InteractionEvents.OnTabPerformed += HandleKeycodeTabPerformed;
-        // InteractionEvents.OnTabCanceled += HandleKeycodeTabCanceled;
-
     }
 
     public void Dispose()
     {
         CleaningSurface.OnCreated -= RegisterSurface;
         CleaningSurface.OnForceClean -= HandleOnForceClean;
-
-        // InteractionEvents.OnTabPerformed -= HandleKeycodeTabPerformed;
-        // InteractionEvents.OnTabCanceled -= HandleKeycodeTabCanceled;
     }
 
     private void HandleOnForceClean(ICleanable surface)
     {
-        OnSurfaceCleaningUpdate?.Invoke(CalculateSurfaceProgress());
-    }
-
-    private void HandleOveralProgressUpdated(float obj)
-    {
-        overallProgress = obj;
+        float progress = CalculateSurfaceProgress();
+        gameplayUIManager.GameplayUIController.UpdateCleanProgress(progress);
+        OnSurfaceCleaningUpdate?.Invoke(progress);
     }
 
     private void RegisterSurface(ICleanable surface)
     {
-        // Debug.Log("Registering clean surface: " + surface);
         cleanSurfaces.Add(surface);
-    }
-
-    private void HandleKeycodeTabPerformed()
-    {
-        // AppLogger.Log("Tab kepencet di celaning service " + overallProgress + " < " + GameplayUIManager.clueEnableTreshold);
-        // if (overallProgress < gameplayManager.clueTreshold) return;
-        // AppLogger.Log("[HARUSNYA] Tab nyala cleaning");
-        // foreach (ICleanable surface in cleanSurfaces)
-        // {
-        //     surface.ShowClue(true);
-        // }
-    }
-
-    private void HandleKeycodeTabCanceled()
-    {
-        // if (overallProgress < gameplayManager.clueTreshold) return;
-        // foreach (ICleanSurface surface in cleanSurfaces)
-        // {
-        //     surface.ShowClue(false);
-        // }
     }
 
     public void CleanSurface(ICleanable surface, Texture2D brush, Vector3 hitPoint, Vector3 hitNormal, Vector3 direction, float scale, float strength, Color color, float brushDepth)
     {
         if (!cleanSurfaces.Contains(surface)) return;
         surface?.CleanSurface(hitPoint, brush, hitNormal, direction, scale, strength);
-        OnSurfaceCleaningUpdate?.Invoke(CalculateSurfaceProgress());
+
+        float progress = CalculateSurfaceProgress();
+        gameplayUIManager.GameplayUIController.UpdateCleanProgress(progress);
+        OnSurfaceCleaningUpdate?.Invoke(progress);
     }
 
     public void ForceCleanAll()
@@ -90,6 +60,7 @@ public class CleaningService : IInitializable, IDisposable
             if (surface != null) surface.ForceClean();
         }
 
+        gameplayUIManager.GameplayUIController.UpdateCleanProgress(1f);
         OnSurfaceCleaningUpdate?.Invoke(1f);
     }
 
