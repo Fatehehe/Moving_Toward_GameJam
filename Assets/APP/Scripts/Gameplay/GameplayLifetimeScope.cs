@@ -6,14 +6,14 @@ using VContainer.Unity;
 public class GameplayLifetimeScope : LifetimeScope
 {
     [SerializeField] private Inspection inspect;
-    [SerializeField] private ProgressBarUI holdProgressUI;
-
+    [SerializeField] private GameplayUIManager gameplayUIManager;
 
     protected override void Configure(IContainerBuilder builder)
     {
+        builder.RegisterComponent(gameplayUIManager);
+
         builder.RegisterInstance(Camera.main);
         builder.RegisterComponent(inspect);
-        builder.RegisterComponent(holdProgressUI);
 
         builder.RegisterEntryPoint<ObjectDetectionService>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ObjectDragService>(Lifetime.Scoped).AsSelf();

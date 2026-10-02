@@ -8,7 +8,9 @@ public class ToyManager : IInitializable, IDisposable
     private readonly ObjectInteractionManager objectInteractionManager;
     private readonly AssembleService assemblyService;
     private readonly ToolService toolService;
-    private readonly ProgressBarUI progressBarUI;
+
+    private readonly GameplayUIManager gameplayUIManager;
+
     private readonly GameConfigData config;
 
     private IToyPart currentDraggedPart;
@@ -19,12 +21,12 @@ public class ToyManager : IInitializable, IDisposable
 
     [Inject]
     public ToyManager(ObjectInteractionManager objectInteractionManager, AssembleService assemblyService,
-    ToolService toolService, ProgressBarUI progressBarUI, GameConfigData config)
+    ToolService toolService, GameplayUIManager gameplayUIManager, GameConfigData config)
     {
         this.objectInteractionManager = objectInteractionManager;
         this.assemblyService = assemblyService;
         this.toolService = toolService;
-        this.progressBarUI = progressBarUI;
+        this.gameplayUIManager = gameplayUIManager;
         this.config = config;
     }
 
@@ -127,16 +129,15 @@ public class ToyManager : IInitializable, IDisposable
         if (interactable is IPressable pressable) { pressable.OnHoldCanceled(); }
     }
 
-    // --- HELPER METHOD UNTUK UI PROGRESS BAR ---
+    // --- 3. HELPER METHOD DIPERBARUI UNTUK MENGAKSES CONTROLLER ---
 
     private void ShowHoldProgress(IToyPart part, Vector2 screenPos)
     {
         if (part == null) return;
-        // Pastikan hanya part yang SUDAH terpasang yang memunculkan UI hold (untuk di-detach)
         if (!assemblyService.IsPartAssembled(part)) return;
 
-        // Sesuaikan dengan method yang ada di script ProgressBarUI milikmu
-        progressBarUI.Show(screenPos);
+        // Panggil melalui UI Controller
+        gameplayUIManager.GameplayUIController.ShowHoldProgress(screenPos);
     }
 
     private void UpdateHoldProgress(IToyPart part, float normalized)
@@ -144,7 +145,8 @@ public class ToyManager : IInitializable, IDisposable
         if (part == null) return;
         if (!assemblyService.IsPartAssembled(part)) return;
 
-        progressBarUI.UpdateProgress(normalized);
+        // Panggil melalui UI Controller
+        gameplayUIManager.GameplayUIController.UpdateHoldProgress(normalized);
     }
 
     private void HideHoldProgress(IToyPart part)
@@ -152,7 +154,8 @@ public class ToyManager : IInitializable, IDisposable
         if (part == null) return;
         if (!assemblyService.IsPartAssembled(part)) return;
 
-        progressBarUI.Hide();
+        // Panggil melalui UI Controller
+        gameplayUIManager.GameplayUIController.HideHoldProgress();
     }
 
     // -------------------------------------------
