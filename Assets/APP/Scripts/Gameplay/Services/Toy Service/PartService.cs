@@ -24,16 +24,23 @@ public class PartService : IInitializable, IDisposable
         registry.Add(sm);
     }
 
+    private bool isAssembleFinished = false;
+
     public void ProgressUpdate(int assembledCount)
     {
         int totalParts = registry.Count;
         if (totalParts == 0) return;
 
         float progressPercentage = (float)assembledCount / totalParts;
-        // Debug.Log($"Progress: {assembledCount}/{totalParts} ({(progressPercentage * 100):0.##}%)");
+        // Debug.Log($"Assemble Progress: {assembledCount}/{totalParts} ({(progressPercentage * 100):0.##}%)");
 
         gameplayUIManager.GameplayUIController.UpdateAssembleProgress(progressPercentage);
-
         OnProgressUpdate?.Invoke(assembledCount, totalParts, progressPercentage);
+
+        if (progressPercentage >= 1f && !isAssembleFinished)
+        {
+            isAssembleFinished = true;
+            GameEvents.RaiseAssemblingFinished();
+        }
     }
 }

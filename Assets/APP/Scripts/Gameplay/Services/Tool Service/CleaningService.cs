@@ -10,6 +10,7 @@ public class CleaningService : IInitializable, IDisposable
     private readonly HashSet<ICleanable> cleanSurfaces = new();
     private GameplayUIManager gameplayUIManager;
     public bool isCleaning;
+    private bool isCleaningFinished = false;
 
     public event Action<float> OnSurfaceCleaningUpdate;
 
@@ -31,16 +32,22 @@ public class CleaningService : IInitializable, IDisposable
         CleaningSurface.OnForceClean -= HandleOnForceClean;
     }
 
-    private void HandleOnForceClean(ICleanable surface)
+    private void EvaluateCleaningProgress()
     {
         float progress = CalculateSurfaceProgress();
         gameplayUIManager.GameplayUIController.UpdateCleanProgress(progress);
         OnSurfaceCleaningUpdate?.Invoke(progress);
+
+        if (progress >= 1f && !isCleaningFinished)
+        {
+            isCleaningFinished = true;
+            GameEvents.RaiseCleaningFinished();
+        }
     }
 
-    private void RegisterSurface(ICleanable surface)
+    private void HandleOnForceClean(ICleanable surface)
     {
-        cleanSurfaces.Add(surface);
+        EvaluateCleaningProgress();
     }
 
     public void CleanSurface(ICleanable surface, Texture2D brush, Vector3 hitPoint, Vector3 hitNormal, Vector3 direction, float scale, float strength, Color color, float brushDepth)
@@ -48,9 +55,7 @@ public class CleaningService : IInitializable, IDisposable
         if (!cleanSurfaces.Contains(surface)) return;
         surface?.CleanSurface(hitPoint, brush, hitNormal, direction, scale, strength);
 
-        float progress = CalculateSurfaceProgress();
-        gameplayUIManager.GameplayUIController.UpdateCleanProgress(progress);
-        OnSurfaceCleaningUpdate?.Invoke(progress);
+        EvaluateCleaningProgress();
     }
 
     public void ForceCleanAll()
@@ -59,9 +64,12 @@ public class CleaningService : IInitializable, IDisposable
         {
             if (surface != null) surface.ForceClean();
         }
+        EvaluateCleaningProgress();
+    }
 
-        gameplayUIManager.GameplayUIController.UpdateCleanProgress(1f);
-        OnSurfaceCleaningUpdate?.Invoke(1f);
+    private void RegisterSurface(ICleanable surface)
+    {
+        cleanSurfaces.Add(surface);
     }
 
     private float CalculateSurfaceProgress()

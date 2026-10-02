@@ -1218,6 +1218,8 @@ MonoBehaviour:
   cleanProgressBarUI: {fileID: 850401927}
   assembleProgressBarUI: {fileID: 787260725}
   holdProgressUI: {fileID: 2105003326}
+  failedContainer: {fileID: 0}
+  failedText: {fileID: 0}
 --- !u!1 &299513226
 GameObject:
   m_ObjectHideFlags: 0

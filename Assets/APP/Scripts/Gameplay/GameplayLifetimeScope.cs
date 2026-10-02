@@ -15,6 +15,8 @@ public class GameplayLifetimeScope : LifetimeScope
         builder.RegisterInstance(Camera.main);
         builder.RegisterComponent(inspect);
 
+        builder.RegisterEntryPoint<GameplayManager>(Lifetime.Scoped).AsSelf();
+
         builder.RegisterEntryPoint<ObjectDetectionService>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ObjectDragService>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ObjectPressService>(Lifetime.Scoped).AsSelf();

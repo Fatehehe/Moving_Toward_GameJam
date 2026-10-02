@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -14,7 +13,9 @@ public class AssembleService : IInitializable, IDisposable
 
     private readonly GameConfigData config;
     private readonly List<IToyPart> currentAssembleList = new();
+
     public bool isToySlotAvailable = false;
+    private bool isAssemblePhase = false;
 
     [Inject]
     public AssembleService(Inspection inspection, PartService partService, GameConfigData config, Camera cam)
@@ -25,8 +26,20 @@ public class AssembleService : IInitializable, IDisposable
         this.camera = cam;
     }
 
-    public void Initialize() { }
-    public void Dispose() { }
+    public void Initialize()
+    {
+        GameEvents.OnCleaningFinished += EnableAssemblePhase;
+    }
+
+    public void Dispose()
+    {
+        GameEvents.OnCleaningFinished -= EnableAssemblePhase;
+    }
+
+    private void EnableAssemblePhase()
+    {
+        isAssemblePhase = true;
+    }
 
     public bool TryCheckSlot(IToyPart toyPart, Vector3 worldPos)
     {
@@ -38,6 +51,8 @@ public class AssembleService : IInitializable, IDisposable
             isToySlotAvailable = distance < 2f;
             return isToySlotAvailable;
         }
+
+        if (!isAssemblePhase) return false;
 
         IToyPart outermostPart = currentAssembleList[currentAssembleList.Count - 1];
 
@@ -73,6 +88,9 @@ public class AssembleService : IInitializable, IDisposable
         }
         else
         {
+            // TAHAN: GAK BISA MERAKIT (ASSEMBLE) JIKA CLEANING BELUM SELESAI
+            if (!isAssemblePhase) return false;
+
             IToyPart outermostPart = currentAssembleList[currentAssembleList.Count - 1];
             if (outermostPart.IsParentAvailable(toyPart.PieceId))
             {
