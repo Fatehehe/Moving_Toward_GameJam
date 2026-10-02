@@ -20,6 +20,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
     private float movementTimer = 0f;
     private const float MOVEMENT_TIMEOUT = 0.15f;
 
+    private bool isGameEnded = false;
+
     [Inject]
     public ToolService(
         ObjectDetectionService objectDetectionService,
@@ -35,6 +37,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     public void Initialize()
     {
+        GameEvents.OnAssemblingFinished += HandleAssemblingFinished;
+
         objectDetectionService.OnInteractDetected += HandleObjectDetected;
 
         inputSystemService.OnLeftPressStarted += HandlePressStart;
@@ -44,6 +48,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     public void Dispose()
     {
+        GameEvents.OnAssemblingFinished -= HandleAssemblingFinished;
+
         objectDetectionService.OnInteractDetected -= HandleObjectDetected;
 
         inputSystemService.OnLeftPressStarted -= HandlePressStart;
@@ -51,9 +57,18 @@ public class ToolService : IInitializable, IDisposable, ITickable
         inputSystemService.OnMouseMoved -= HandleMouseMove;
     }
 
+    private void HandleAssemblingFinished()
+    {
+        isGameEnded = true;
+
+        ReturnCurrentTool();
+    }
+
     public void Tick()
     {
+        if (isGameEnded) return;
         if (currentToolObject == null) return;
+
         if (isCleaning)
         {
             if (movementTimer > 0f)
@@ -70,36 +85,32 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     private void HandleObjectDetected(IInteractable obj)
     {
+        if (isGameEnded) return;
         currentInteract = obj;
     }
 
     private void HandlePressStart(Vector2 vec)
     {
-        // 1. Cek apakah yang diklik adalah sebuah Tool (Untuk masuk/keluar Tool Mode)
+        if (isGameEnded) return;
+
         if (currentInteract is IToolObject clickedTool)
         {
-            // Jika tool yang diklik SAMA dengan yang sedang dipakai -> Keluar mode tool
             if (currentToolObject == clickedTool)
             {
                 ReturnCurrentTool();
             }
-            // Jika beda atau belum pegang tool -> Masuk mode tool (Equip)
             else
             {
                 EquipTool(clickedTool);
             }
-            return; // Selesai evaluasi klik pada tool
+            return;
         }
 
-        // 2. Jika SEDANG di dalam Tool Mode, dan menekan di layar (mulai membersihkan)
         if (IsOnToolMode)
         {
-            // Gunakan posisi mouse saat ini untuk mendeteksi apakah mengenai kotoran
             mousePos = inputSystemService.GetMousePosition();
-            // Debug.Log("Cleaning before");
             if (surfaceDetectionService.DetectSurface(mousePos))
             {
-                // Debug.Log("Cleaning after");
                 isCleaning = true;
                 movementTimer = MOVEMENT_TIMEOUT;
                 ProcessCleaning();
@@ -109,10 +120,11 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     private void HandleMouseMove(Vector2 newMousePos)
     {
+        if (isGameEnded) return;
+
         float delta = Vector2.Distance(mousePos, newMousePos);
         mousePos = newMousePos;
 
-        // Jika sedang menahan klik (isCleaning) dan mouse bergerak -> Proses pembersihan
         if (isCleaning && delta > 1.0f)
         {
             movementTimer = MOVEMENT_TIMEOUT;
@@ -122,9 +134,9 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     private void HandlePressEnd(Vector2 vec)
     {
+        if (isGameEnded) return;
         if (!IsOnToolMode) return;
 
-        // Berhenti membersihkan saat klik dilepas
         isCleaning = false;
         if (currentToolObject != null)
         {
@@ -135,16 +147,12 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     private void EquipTool(IToolObject tool)
     {
-        // Kembalikan tool sebelumnya jika ada
         ReturnCurrentTool();
 
         currentToolObject = tool;
         currentToolObject.Use();
 
-        // TODO: Ubah kursor menjadi gambar tool (Texture2D Brush-mu)
-        // Cursor.SetCursor(((IToolBrush)tool).GetBrush, Vector2.zero, CursorMode.Auto);
         CursorController.instance?.LockCursorState(CursorState.Crosshair);
-        // Debug.Log("Masuk Mode Tool: " + tool.GetType().Name);
     }
 
     private void ReturnCurrentTool()
@@ -153,27 +161,19 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
         currentToolObject.Return();
 
-        // Matikan efek jika masih menyala
         currentToolObject.PlaySfx(false);
         currentToolObject.PlayVfx(false);
 
         currentToolObject = null;
         isCleaning = false;
 
-        // TODO: Kembalikan kursor ke default
-        // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         CursorController.instance?.UnlockCursorState();
         CursorController.instance?.SetCursorState(CursorState.DefaultRounded);
-
-        // Debug.Log("Keluar Mode Tool.");
     }
 
     private void ProcessCleaning()
     {
-        // 1. Raycast ke arah kursor mouse
         if (!surfaceDetectionService.DetectSurface(mousePos)) return;
-
-        // 2. Jika yang digunakan adalah Brush
         if (currentToolObject is IToolBrush brushTool)
         {
             CleanSurface(brushTool);
@@ -185,11 +185,9 @@ public class ToolService : IInitializable, IDisposable, ITickable
         var surface = surfaceDetectionService.CleanableSurface;
         if (surface == null) return;
 
-        // Nyalakan efek suara & partikel
         currentToolObject.PlaySfx(true);
         currentToolObject.PlayVfx(true);
 
-        // Lakukan pembersihan tekstur
         cleaningService.CleanSurface(
             surface,
             brushTool.GetBrush,

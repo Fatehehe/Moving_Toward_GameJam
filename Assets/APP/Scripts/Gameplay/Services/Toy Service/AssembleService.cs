@@ -16,6 +16,7 @@ public class AssembleService : IInitializable, IDisposable
 
     public bool isToySlotAvailable = false;
     private bool isAssemblePhase = false;
+    private bool hasTriggeredFirstInspect = false;
 
     [Inject]
     public AssembleService(Inspection inspection, PartService partService, GameConfigData config, Camera cam)
@@ -81,9 +82,14 @@ public class AssembleService : IInitializable, IDisposable
             toyPart.GetTransform().SetParent(inspection.transform);
             toyPart.OnAssembled(inspection.transform);
             inspection.SetInspectionUsage(true);
-
             partService.ProgressUpdate(currentAssembleList.Count);
 
+            if (!hasTriggeredFirstInspect)
+            {
+                Debug.Log("[AssembleService] Pemain berhasil merakit part pertama!");
+                hasTriggeredFirstInspect = true;
+                GameEvents.RaiseFirstInspect();
+            }
             return true;
         }
         else
@@ -97,7 +103,6 @@ public class AssembleService : IInitializable, IDisposable
                 toyPart.GetTransform().SetParent(inspection.transform);
                 toyPart.OnAssembled(outermostPart.GetTransform());
                 partService.ProgressUpdate(currentAssembleList.Count);
-
                 return true;
             }
         }
@@ -132,6 +137,8 @@ public class AssembleService : IInitializable, IDisposable
         return true;
     }
 
+    // (Sisa kode AssembleService tetap sama) ...
+
     private float GetFlattenedDistance(Vector3 posA, Vector3 posB)
     {
         if (camera == null) return Vector3.Distance(posA, posB);
@@ -146,5 +153,24 @@ public class AssembleService : IInitializable, IDisposable
     public bool IsInspectEmpty()
     {
         return currentAssembleList.Count == 0;
+    }
+
+    // --- FUNGSI BARU UNTUK MENDETEKSI PELANGGARAN ---
+    public string GetCautionMessage(IToyPart toyPart, Vector3 worldPos)
+    {
+        // Jika meja kosong, pemain boleh menaruh part pertama (meski belum selesai cleaning)
+        if (IsInspectEmpty()) return string.Empty;
+
+        IToyPart outermostPart = currentAssembleList[currentAssembleList.Count - 1];
+        float distance = GetFlattenedDistance(worldPos, outermostPart.GetTransform().position);
+
+        // Hanya munculkan pesan kalau pemain mencoba "merakit" (drop di dekat target)
+        if (distance <= 2f)
+        {
+            if (!isAssemblePhase) return "Bersihkan semua kotoran terlebih dahulu!";
+            if (!outermostPart.IsParentAvailable(toyPart.PieceId)) return "Urutan pemasangan salah!";
+        }
+
+        return string.Empty; // Kosong berarti aman / tidak ada pelanggaran
     }
 }

@@ -26,7 +26,7 @@ public class GameplayManager : IInitializable, IDisposable
 
     public void Initialize()
     {
-        input.ChangeInputState(InputStateType.Player);
+        // input.ChangeInputState(InputStateType.Player);
 
         GameEvents.OnCleaningFinished += HandleCleaningFinished;
         GameEvents.OnAssemblingFinished += HandleAssemblingFinished;
@@ -35,8 +35,6 @@ public class GameplayManager : IInitializable, IDisposable
         uiManager.GameplayUIController.ShowCleanProgress();
         uiManager.GameplayUIController.HideAssembleProgress();
         uiManager.GameplayUIController.HideHoldProgress();
-
-        GameEvents.RaiseGameStarted();
     }
 
     public void Dispose()
@@ -71,7 +69,6 @@ public class GameplayManager : IInitializable, IDisposable
     private void HandleAssemblingFinished()
     {
         Debug.Log("Assemble Selesai! Game Berakhir.");
-
         uiManager.GameplayUIController.HideAssembleProgress();
         uiManager.ShowEndgameUI();
         GameEvents.RaiseGameEnded();

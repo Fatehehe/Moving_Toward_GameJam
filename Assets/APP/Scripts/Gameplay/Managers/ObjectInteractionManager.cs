@@ -9,6 +9,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     private readonly ObjectPressService pressService;
     private readonly ObjectDragService dragService;
     private readonly Inspection inspection;
+    private Vector3 inspectionUp = Vector3.up;
     private readonly Camera camera;
 
     private IInteractable currentInteract;
@@ -24,6 +25,8 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     public event Action<IInteractable, float, Vector2> OnHoldPerformed;
     public event Action<IInteractable> OnHoldCanceled;
 
+    private bool isGameEnded = false;
+
     [Inject]
     public ObjectInteractionManager(ObjectDetectionService detectionService, ObjectPressService press, ObjectDragService swipe, Inspection inspection, Camera camera)
     {
@@ -36,6 +39,8 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
     public void Initialize()
     {
+        GameEvents.OnAssemblingFinished += HandleAssemblingFinished;
+
         detectionService.OnInteractDetected += HandleInteractDetected;
 
         pressService.OnPressStarted += HandlePressStarted;
@@ -47,10 +52,14 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         dragService.OnDragStarted += HandleDragStart;
         dragService.OnDragPerformed += HandleDragPerformed;
         dragService.OnDragEnded += HandleDragEnded;
+
+        inspectionUp = inspection.transform.up;
     }
 
     public void Dispose()
     {
+        GameEvents.OnAssemblingFinished -= HandleAssemblingFinished;
+
         detectionService.OnInteractDetected -= HandleInteractDetected;
 
         pressService.OnPressStarted -= HandlePressStarted;
@@ -62,6 +71,12 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         dragService.OnDragStarted -= HandleDragStart;
         dragService.OnDragPerformed -= HandleDragPerformed;
         dragService.OnDragEnded -= HandleDragEnded;
+    }
+
+    private void HandleAssemblingFinished()
+    {
+        isGameEnded = true;
+        ForceDropCurrentObject();
     }
 
     public void ForceDropCurrentObject()
@@ -83,11 +98,13 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
     private void HandleInteractDetected(IInteractable interact)
     {
+        if (isGameEnded) return;
         currentInteract = interact;
     }
 
     private bool IsInteractValid()
     {
+        if (isGameEnded) return false;
         if (currentInteract == null) return false;
         if (currentInteract is MonoBehaviour mono && mono == null) return false;
         return true;
@@ -95,12 +112,14 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
     private void HandlePressStarted()
     {
+        if (isGameEnded) return;
         OnPressStart?.Invoke();
         detectionService.SetInteractObjectUsed(true);
     }
 
     private void HandlePressEnded()
     {
+        if (isGameEnded) return;
         OnPressEnd?.Invoke();
         detectionService.SetInteractObjectUsed(false);
     }
@@ -155,7 +174,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
         if (camera == null || inspection == null) return Vector3.zero;
 
         Ray ray = camera.ScreenPointToRay(screenPos);
-        Plane dragPlane = new(inspection.transform.up, inspection.transform.position);
+        Plane dragPlane = new(inspectionUp, inspection.transform.position);
 
         if (dragPlane.Raycast(ray, out float distance))
         {

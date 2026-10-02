@@ -8,9 +8,7 @@ public class ToyManager : IInitializable, IDisposable
     private readonly ObjectInteractionManager objectInteractionManager;
     private readonly AssembleService assemblyService;
     private readonly ToolService toolService;
-
     private readonly GameplayUIManager gameplayUIManager;
-
     private readonly GameConfigData config;
 
     private IToyPart currentDraggedPart;
@@ -169,6 +167,7 @@ public class ToyManager : IInitializable, IDisposable
         }
     }
 
+
     private void HandleDragEnded(IInteractable interactable, Vector3 vector)
     {
         if (toolService.IsOnToolMode) return;
@@ -178,11 +177,20 @@ public class ToyManager : IInitializable, IDisposable
 
         bool isSuccessfullyAssembled = false;
 
-        if (toyPart != null && assemblyService.isToySlotAvailable)
+        if (toyPart != null)
         {
-            if (assemblyService.TryAssemble(toyPart))
+            string cautionMsg = assemblyService.GetCautionMessage(toyPart, vector);
+
+            if (!string.IsNullOrEmpty(cautionMsg))
             {
-                isSuccessfullyAssembled = true;
+                gameplayUIManager.GameplayUIController.ShowCautionText(cautionMsg);
+            }
+            else if (assemblyService.isToySlotAvailable)
+            {
+                if (assemblyService.TryAssemble(toyPart))
+                {
+                    isSuccessfullyAssembled = true;
+                }
             }
         }
 

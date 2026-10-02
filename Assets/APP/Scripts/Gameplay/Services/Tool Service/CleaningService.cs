@@ -11,6 +11,7 @@ public class CleaningService : IInitializable, IDisposable
     private GameplayUIManager gameplayUIManager;
     public bool isCleaning;
     private bool isCleaningFinished = false;
+    private bool hasTriggeredFirstClean = false;
 
     public event Action<float> OnSurfaceCleaningUpdate;
 
@@ -38,10 +39,25 @@ public class CleaningService : IInitializable, IDisposable
         gameplayUIManager.GameplayUIController.UpdateCleanProgress(progress);
         OnSurfaceCleaningUpdate?.Invoke(progress);
 
+        // 1. Cek apakah keseluruhan progress sudah 100% (Tutorial 3)
         if (progress >= 1f && !isCleaningFinished)
         {
             isCleaningFinished = true;
+            hasTriggeredFirstClean = true; // Mencegah dobel panggil
             GameEvents.RaiseCleaningFinished();
+        }
+        // 2. Cek apakah ada SATU object yang sudah dibersihkan (Tutorial 2)
+        else if (!hasTriggeredFirstClean)
+        {
+            foreach (var surface in cleanSurfaces)
+            {
+                if (surface.GetCleaningProgress() >= 100f) // Jika ada 1 yang selesai
+                {
+                    hasTriggeredFirstClean = true;
+                    GameEvents.RaiseFirstSurfaceCleaned();
+                    break;
+                }
+            }
         }
     }
 
