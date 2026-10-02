@@ -47,16 +47,23 @@ public class CleaningService : IInitializable, IDisposable
             GameEvents.RaiseCleaningFinished();
             AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Finish);
         }
-        // 2. Cek apakah ada SATU object yang sudah dibersihkan (Tutorial 2)
+        // 2. Cek apakah ada DUA object yang sudah dibersihkan (Tutorial 2)
         else if (!hasTriggeredFirstClean)
         {
+            int cleanedCount = 0; // Buat penghitung
+
             foreach (var surface in cleanSurfaces)
             {
-                if (surface.GetCleaningProgress() >= 100f) // Jika ada 1 yang selesai
+                if (surface.GetCleaningProgress() >= 100f)
                 {
-                    hasTriggeredFirstClean = true;
-                    GameEvents.RaiseFirstSurfaceCleaned();
-                    break;
+                    cleanedCount++; // Tambah 1 setiap ada yang 100%
+
+                    if (cleanedCount >= 2) // Cek apakah sudah 2 yang selesai
+                    {
+                        hasTriggeredFirstClean = true;
+                        GameEvents.RaiseFirstSurfaceCleaned();
+                        break; // Hentikan loop karena syarat sudah terpenuhi
+                    }
                 }
             }
         }
@@ -87,7 +94,6 @@ public class CleaningService : IInitializable, IDisposable
     private void RegisterSurface(ICleanable surface)
     {
         cleanSurfaces.Add(surface);
-        Debug.Log($"Registered cleanable surface: {surface.GetType().Name}. Total surfaces: {cleanSurfaces.Count}");
     }
 
     private float CalculateSurfaceProgress()

@@ -11025,6 +11025,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450651813525969}
   - component: {fileID: 919132147828974444}
+  - component: {fileID: 919132147828974445}
   m_Layer: 6
   m_Name: Matryoshka_3
   m_TagString: Untagged
@@ -11050,6 +11051,28 @@ MonoBehaviour:
   parentSlot:
     parentId: Part2
     isOccupied: 0
+--- !u!95 &919132147828974445
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147828974443}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec998aa8407044d72b970ab7a5b2333b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &919132148405264490
 GameObject:
   m_ObjectHideFlags: 0
@@ -11076,6 +11099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450652806661425}
   - component: {fileID: 919132148882907020}
+  - component: {fileID: 919132148882907021}
   m_Layer: 6
   m_Name: Matryoshka_1
   m_TagString: Untagged
@@ -11101,6 +11125,28 @@ MonoBehaviour:
   parentSlot:
     parentId: 
     isOccupied: 0
+--- !u!95 &919132148882907021
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148882907019}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec998aa8407044d72b970ab7a5b2333b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &919132149150613611
 GameObject:
   m_ObjectHideFlags: 0
@@ -11111,6 +11157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450653611252433}
   - component: {fileID: 919132149150613612}
+  - component: {fileID: 919132149150613613}
   m_Layer: 6
   m_Name: Matryoshka_4
   m_TagString: Untagged
@@ -11136,6 +11183,28 @@ MonoBehaviour:
   parentSlot:
     parentId: Part3
     isOccupied: 0
+--- !u!95 &919132149150613613
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149150613611}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec998aa8407044d72b970ab7a5b2333b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &919132149621533242
 GameObject:
   m_ObjectHideFlags: 0
@@ -11146,6 +11215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450653274763392}
   - component: {fileID: 919132149621533243}
+  - component: {fileID: 919132149621533244}
   m_Layer: 6
   m_Name: Matryoshka_2
   m_TagString: Untagged
@@ -11171,6 +11241,28 @@ MonoBehaviour:
   parentSlot:
     parentId: Part1
     isOccupied: 0
+--- !u!95 &919132149621533244
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149621533242}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec998aa8407044d72b970ab7a5b2333b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &956610791642635011
 GameObject:
   m_ObjectHideFlags: 0
@@ -12518,7 +12610,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &5232911773687817153
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13121,7 +13213,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &7465341441668559775
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13300,7 +13392,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &7735677807543993889
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13633,7 +13725,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &8391655232651784250
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13758,7 +13850,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!23 &8498355226426746746
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13915,7 +14007,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &8741833273357200869
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14078,7 +14170,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!23 &9192683000848640897
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14151,7 +14243,7 @@ MonoBehaviour:
   isDirtRemoved: 0
   forceClearTreshold: 99
   maskTexturePropertyName: _SubMask
-  maskTexture: {fileID: 2800000, guid: 893e1443319ae4d56a3c1edae2b2c329, type: 3}
+  maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &9192683000848640899
 MeshCollider:
   m_ObjectHideFlags: 0
