@@ -1,6 +1,5 @@
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+// Hapus using System.Threading.Tasks;
 
 public class SceneLoader
 {
@@ -10,35 +9,11 @@ public class SceneLoader
 
     /// <summary>
     /// <param name="minDuration">Minimum duration in seconds (e.g: 2.0f)</param>
-    /// <param name="customMessage">Custom message to display (if empty, will use default message based on type)</param>
-    /// Loads a scene asynchronously while showing a loading screen with progress and optional custom message. Ensures the loading screen is visible for at least minDuration seconds.
+    /// <param name="customMessage">Custom message to display</param>
     /// </summary>
-    public async Task LoadSceneAsync(string sceneName, float minDuration = 0f, string customMessage = "")
+    public void LoadSceneAsync(string sceneName, float minDuration = 0f, string customMessage = "")
     {
-        string message = customMessage;
-
-        float startTime = Time.time;
-
-        _loadingService.ShowLoading(message);
-
-        AudioEvents.TriggerStopBGM();
-
-        await Task.Delay(1500);
-
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
-
-        while (!op.isDone)
-        {
-            await Task.Yield();
-        }
-
-        float elapsed = Time.time - startTime;
-        if (elapsed < minDuration)
-        {
-            int delayTime = (int)((minDuration - elapsed) * 1000);
-            await Task.Delay(delayTime);
-        }
-
-        _loadingService.HideLoading();
+        // Alihkan tugas coroutine ke LoadingService
+        _loadingService.StartLoadingScene(sceneName, minDuration, customMessage);
     }
 }

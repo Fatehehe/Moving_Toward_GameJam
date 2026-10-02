@@ -41,6 +41,7 @@ public class PartService : IInitializable, IDisposable
         {
             isAssembleFinished = true;
             GameEvents.RaiseAssemblingFinished();
+            AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Finish);
         }
     }
 }

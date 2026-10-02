@@ -22,6 +22,13 @@ public class MainMenuUIController : BaseMenuController
     [Header("Animation Settings")]
     [SerializeField] private float animDuration = 0.4f;
 
+    [Header("Floating Animation")]
+    [SerializeField] private RectTransform floatingPhotoRect; // Masukkan RectTransform foto/kertas di sini
+    [SerializeField] private float floatHeight = 15f;         // Jarak naik turun
+    [SerializeField] private float floatDuration = 2f;        // Durasi 1 siklus naik/turun
+    [SerializeField] private float rotationAngle = 2f;        // Derajat kemiringan rotasi
+    [SerializeField] private float rotationDuration = 2.5f;   // Dibuat beda dengan floatDuration agar gerakannya terasa organik
+
     private bool isCreditOpen = false;
 
     protected override void Awake()
@@ -51,6 +58,8 @@ public class MainMenuUIController : BaseMenuController
 
         if (buttonStart != null) buttonStart.onClick.AddListener(OnButtonNewGameClick);
         if (buttonCreditToggle != null) buttonCreditToggle.onClick.AddListener(OnCreditToggleClick);
+
+        StartFloatingAnimation();
     }
 
     protected override void OnDestroy()
@@ -59,6 +68,30 @@ public class MainMenuUIController : BaseMenuController
 
         if (buttonStart != null) buttonStart.onClick.RemoveListener(OnButtonNewGameClick);
         if (buttonCreditToggle != null) buttonCreditToggle.onClick.RemoveListener(OnCreditToggleClick);
+
+        // Wajib matikan tween saat object hancur (misal saat pindah scene)
+        if (floatingPhotoRect != null)
+        {
+            floatingPhotoRect.DOKill();
+        }
+    }
+
+    private void StartFloatingAnimation()
+    {
+        if (floatingPhotoRect == null) return;
+
+        // Gerak naik turun secara looping
+        float startY = floatingPhotoRect.anchoredPosition.y;
+        floatingPhotoRect.DOAnchorPosY(startY + floatHeight, floatDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
+
+        // Gerak rotasi miring kiri-kanan tipis secara looping
+        // Set kemiringan awal ke -rotationAngle agar putarannya sinkron dari kiri ke kanan
+        floatingPhotoRect.localRotation = Quaternion.Euler(0, 0, -rotationAngle);
+        floatingPhotoRect.DOLocalRotate(new Vector3(0, 0, rotationAngle), rotationDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnButtonNewGameClick()
@@ -71,7 +104,7 @@ public class MainMenuUIController : BaseMenuController
     {
         buttonCreditToggle.interactable = false;
 
-        buttonCreditToggle.transform.DOKill();
+        buttonCreditToggle.transform.DOKill(true); // Hindari bentrok animasi button
         buttonCreditToggle.transform.localScale = Vector3.one;
         buttonCreditToggle.transform.DOPunchScale(Vector3.one * 0.2f, 0.3f).OnComplete(() =>
         {

@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class StoryUIController : BaseMenuController
 {
     [Header("Tutorial Pages")]
-    [SerializeField] private GameObject[] tutorialPages; // Masukkan 6 GameObject tutorial ke sini
+    [SerializeField] private GameObject[] tutorialPages;
 
     [Header("Navigation Buttons")]
     [SerializeField] private Button buttonLeft;
     [SerializeField] private Button buttonRight;
-
+    [SerializeField] private Button buttonFinish;
     public event Action OnTutorialFinished;
 
     private int currentPage = 0;
@@ -21,6 +21,7 @@ public class StoryUIController : BaseMenuController
 
         if (buttonLeft != null) buttonLeft.onClick.AddListener(PreviousPage);
         if (buttonRight != null) buttonRight.onClick.AddListener(NextPage);
+        if (buttonFinish != null) buttonFinish.onClick.AddListener(FinishTutorial); // Listen ke tombol Finish
     }
 
     protected override void OnDestroy()
@@ -29,6 +30,7 @@ public class StoryUIController : BaseMenuController
 
         if (buttonLeft != null) buttonLeft.onClick.RemoveListener(PreviousPage);
         if (buttonRight != null) buttonRight.onClick.RemoveListener(NextPage);
+        if (buttonFinish != null) buttonFinish.onClick.RemoveListener(FinishTutorial); // Remove listener
     }
 
     public void ShowTutorial()
@@ -40,24 +42,15 @@ public class StoryUIController : BaseMenuController
 
     private void NextPage()
     {
-        Debug.Log($"Current Page: {currentPage}");
-        // Jika belum halaman terakhir, pindah ke halaman selanjutnya
         if (currentPage < tutorialPages.Length - 1)
         {
             currentPage++;
             UpdatePages();
         }
-        else
-        {
-            // Jika sudah di halaman terakhir dan klik tombol kanan, mulai game
-            SetActive(false);
-            OnTutorialFinished?.Invoke();
-        }
     }
 
     private void PreviousPage()
     {
-        Debug.Log($"Current Page: {currentPage}");
         if (currentPage > 0)
         {
             currentPage--;
@@ -65,9 +58,14 @@ public class StoryUIController : BaseMenuController
         }
     }
 
+    private void FinishTutorial()
+    {
+        SetActive(false);
+        OnTutorialFinished?.Invoke();
+    }
+
     private void UpdatePages()
     {
-        // Nyalakan halaman yang aktif, matikan yang lain
         for (int i = 0; i < tutorialPages.Length; i++)
         {
             if (tutorialPages[i] != null)
@@ -76,10 +74,21 @@ public class StoryUIController : BaseMenuController
             }
         }
 
-        // Sembunyikan tombol Kiri jika di halaman pertama (index 0)
+        bool isLastPage = currentPage == tutorialPages.Length - 1;
+
         if (buttonLeft != null)
         {
             buttonLeft.gameObject.SetActive(currentPage > 0);
+        }
+
+        if (buttonRight != null)
+        {
+            buttonRight.gameObject.SetActive(!isLastPage);
+        }
+
+        if (buttonFinish != null)
+        {
+            buttonFinish.gameObject.SetActive(isLastPage);
         }
     }
 }

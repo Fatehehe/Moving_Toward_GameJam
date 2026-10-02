@@ -41,9 +41,6 @@ public class StoryManager : MonoBehaviour
 
     private void OnStoryFinished()
     {
-        _ = sceneLoader.LoadSceneAsync(
-            targetScene,
-            config.minLoadingScreenDuration
-        );
+        sceneLoader.LoadSceneAsync(targetScene, config.minLoadingScreenDuration);
     }
 }

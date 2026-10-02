@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883ce4cceb81b457a824c0bd9a872d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingManager
-  targetScene: Splash
+  targetScene: Mainmenu
   uiTutorialController: {fileID: 1407457169}
 --- !u!1 &227100099
 GameObject:
@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: af4a8ab56b3374b79b790fa38ede8cdc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -45,6 +45,7 @@ public class CleaningService : IInitializable, IDisposable
             isCleaningFinished = true;
             hasTriggeredFirstClean = true; // Mencegah dobel panggil
             GameEvents.RaiseCleaningFinished();
+            AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Finish);
         }
         // 2. Cek apakah ada SATU object yang sudah dibersihkan (Tutorial 2)
         else if (!hasTriggeredFirstClean)
@@ -86,6 +87,7 @@ public class CleaningService : IInitializable, IDisposable
     private void RegisterSurface(ICleanable surface)
     {
         cleanSurfaces.Add(surface);
+        Debug.Log($"Registered cleanable surface: {surface.GetType().Name}. Total surfaces: {cleanSurfaces.Count}");
     }
 
     private float CalculateSurfaceProgress()

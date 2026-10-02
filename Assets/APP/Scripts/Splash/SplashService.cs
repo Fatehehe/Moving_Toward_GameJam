@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
+using System.Collections; // Wajib untuk IEnumerator
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 using VContainer.Unity;
 using DG.Tweening;
-using Modules;
+// using Modules; // Aktifkan jika AppLogger ada di dalam namespace ini
 
 [System.Serializable]
 public class SplashSettings
@@ -17,6 +17,7 @@ public class SplashSettings
 
 public class SplashService : IStartable
 {
+    private readonly MonoBehaviour coroutineRunner; // Tambahan untuk menjalankan Coroutine
     private readonly SceneLoader sceneLoader;
     private readonly string targetScene;
     private readonly CanvasGroup canvasGroup;
@@ -26,6 +27,7 @@ public class SplashService : IStartable
 
     [Inject]
     public SplashService(
+        MonoBehaviour coroutineRunner, // Disuntikkan dari LifetimeScope
         SceneLoader sceneLoader,
         string targetScene,
         CanvasGroup canvasGroup,
@@ -33,6 +35,7 @@ public class SplashService : IStartable
         Image splashImage,
         SplashSettings settings)
     {
+        this.coroutineRunner = coroutineRunner;
         this.sceneLoader = sceneLoader;
         this.targetScene = targetScene;
         this.canvasGroup = canvasGroup;
@@ -43,16 +46,17 @@ public class SplashService : IStartable
 
     void IStartable.Start()
     {
-        _ = PlaySplashSequenceAsync();
+        // Jalankan Coroutine meminjam MonoBehaviour dari Scope
+        coroutineRunner.StartCoroutine(PlaySplashSequenceRoutine());
     }
 
-    private async Task PlaySplashSequenceAsync()
+    private IEnumerator PlaySplashSequenceRoutine()
     {
         if (canvasGroup == null || splashImage == null || splashSprites == null || splashSprites.Length == 0)
         {
-            AppLogger.LogWarning("[SplashService] UI references are incomplete. Skipping Splash animation.");
-            await LoadNextScene();
-            return;
+            Debug.LogWarning("[SplashService] UI references are incomplete. Skipping Splash animation.");
+            LoadNextScene();
+            yield break;
         }
 
         canvasGroup.alpha = 0f;
@@ -66,26 +70,32 @@ public class SplashService : IStartable
             splashImage.sprite = splashSprites[i];
             splashImage.transform.localScale = Vector3.one;
 
-            splashImage.transform.DOScale(1.1f, totalAnimationDuration).SetEase(Ease.Linear).SetLink(splashImage.gameObject);
+            splashImage.transform.DOScale(settings.targetScale, totalAnimationDuration).SetEase(Ease.Linear).SetLink(splashImage.gameObject);
 
+            // Fase Fade In
             canvasGroup.DOFade(1f, settings.fadeDuration).SetLink(canvasGroup.gameObject);
-            await Task.Delay((int)(settings.fadeDuration * 1000));
+            yield return new WaitForSeconds(settings.fadeDuration);
 
-            await Task.Delay(settings.holdDurationMs);
+            // Fase Hold (Tunggu di layar)
+            yield return new WaitForSeconds(settings.holdDurationMs / 1000f);
 
+            // Fase Fade Out
             canvasGroup.DOFade(0f, settings.fadeDuration).SetLink(canvasGroup.gameObject);
-            await Task.Delay((int)(settings.fadeDuration * 1000));
+            yield return new WaitForSeconds(settings.fadeDuration);
 
             splashImage.transform.DOKill();
-            await Task.Delay(settings.endDelayMs);
+
+            // End delay sebelum sprite berikutnya
+            yield return new WaitForSeconds(settings.endDelayMs / 1000f);
         }
 
-        await LoadNextScene();
+        LoadNextScene();
     }
 
-    private async Task LoadNextScene()
+    private void LoadNextScene()
     {
         string sceneToLoad = string.IsNullOrEmpty(targetScene) ? "MainMenu" : targetScene;
-        await sceneLoader.LoadSceneAsync(sceneToLoad);
+        // Panggil LoadSceneAsync tanpa "await" atau "_ = " karena sudah menjadi void
+        sceneLoader.LoadSceneAsync(sceneToLoad);
     }
 }

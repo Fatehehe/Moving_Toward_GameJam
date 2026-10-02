@@ -15,9 +15,13 @@ public class SplashLifetimeScope : LifetimeScope
 
     protected override void Configure(IContainerBuilder builder)
     {
+        // Perhatikan tambahan .WithParameter<MonoBehaviour>(this) di bawah ini
         builder.RegisterEntryPoint<SplashService>(Lifetime.Scoped).AsSelf()
-            .WithParameter(targetScene).WithParameter(canvasGroup)
-            .WithParameter(splashSprites).WithParameter(splashImage)
+            .WithParameter<MonoBehaviour>(this)
+            .WithParameter(targetScene)
+            .WithParameter(canvasGroup)
+            .WithParameter(splashSprites)
+            .WithParameter(splashImage)
             .WithParameter(splashSettings);
 
         bool isMobile = Application.isMobilePlatform;

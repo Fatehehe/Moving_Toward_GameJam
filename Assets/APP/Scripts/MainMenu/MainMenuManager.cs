@@ -43,6 +43,12 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        // mainMenuUIController.SetActive(true);
+        AudioEvents.TriggerPlayBGMMainMenu();
+    }
+
     private void OnDestroy()
     {
         MainMenuEvents.OnNewGame -= OnRequestNewGameGame;
@@ -52,10 +58,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void OnRequestNewGameGame()
     {
-        _ = sceneLoader.LoadSceneAsync(
-            targetScene,
-            config.minLoadingScreenDuration
-        );
+        sceneLoader.LoadSceneAsync(targetScene, config.minLoadingScreenDuration);
     }
 
     private void OnRequestOpenCredits()

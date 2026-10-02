@@ -41,7 +41,7 @@ public class EndingManager : MonoBehaviour
 
     private void OnStoryFinished()
     {
-        _ = sceneLoader.LoadSceneAsync(
+        sceneLoader.LoadSceneAsync(
             targetScene,
             config.minLoadingScreenDuration
         );

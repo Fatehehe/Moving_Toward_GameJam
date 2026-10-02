@@ -22,6 +22,9 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
     private bool isGameEnded = false;
 
+    // Tambahan state untuk SFX (VFX sudah dihapus)
+    private bool isSfxPlaying = false;
+
     [Inject]
     public ToolService(
         ObjectDetectionService objectDetectionService,
@@ -60,7 +63,6 @@ public class ToolService : IInitializable, IDisposable, ITickable
     private void HandleAssemblingFinished()
     {
         isGameEnded = true;
-
         ReturnCurrentTool();
     }
 
@@ -76,8 +78,7 @@ public class ToolService : IInitializable, IDisposable, ITickable
                 movementTimer -= Time.deltaTime;
                 if (movementTimer <= 0f)
                 {
-                    currentToolObject.PlaySfx(false);
-                    currentToolObject.PlayVfx(false);
+                    PlayToolSfx(false);
                 }
             }
         }
@@ -138,11 +139,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
         if (!IsOnToolMode) return;
 
         isCleaning = false;
-        if (currentToolObject != null)
-        {
-            currentToolObject.PlaySfx(false);
-            currentToolObject.PlayVfx(false);
-        }
+
+        PlayToolSfx(false);
     }
 
     private void EquipTool(IToolObject tool)
@@ -161,8 +159,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
         currentToolObject.Return();
 
-        currentToolObject.PlaySfx(false);
-        currentToolObject.PlayVfx(false);
+        // Panggil SEBELUM currentToolObject diset null
+        PlayToolSfx(false);
 
         currentToolObject = null;
         isCleaning = false;
@@ -185,8 +183,7 @@ public class ToolService : IInitializable, IDisposable, ITickable
         var surface = surfaceDetectionService.CleanableSurface;
         if (surface == null) return;
 
-        currentToolObject.PlaySfx(true);
-        currentToolObject.PlayVfx(true);
+        PlayToolSfx(true);
 
         cleaningService.CleanSurface(
             surface,
@@ -199,5 +196,24 @@ public class ToolService : IInitializable, IDisposable, ITickable
             brushTool.BrushColor,
             brushTool.BrushDepth
         );
+    }
+
+    // --- Implementasi Fungsi PlayToolSfx ---
+
+    private void PlayToolSfx(bool play)
+    {
+        if (currentToolObject != null)
+        {
+            if (play && !isSfxPlaying)
+            {
+                currentToolObject.PlaySfx(true);
+                isSfxPlaying = true;
+            }
+            else if (!play && isSfxPlaying)
+            {
+                currentToolObject.PlaySfx(false);
+                isSfxPlaying = false;
+            }
+        }
     }
 }

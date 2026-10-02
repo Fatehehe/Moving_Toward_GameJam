@@ -22,10 +22,12 @@ public class GameplayUIManager : MonoBehaviour
 
     private void Start()
     {
+        input.ChangeInputState(InputStateType.UI);
         endGameUIController.SetActive(false);
         gameplayUIController.SetActive(false);
         dialogueUIController.SetActive(false);
         StartCoroutine(ShowDialogueDelayed(0, 2f));
+        AudioEvents.TriggerPlayBGMMainMenu();
     }
 
     private IEnumerator ShowDialogueDelayed(int index, float delayTime)

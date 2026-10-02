@@ -51,11 +51,8 @@ public class GameplayManager : IInitializable, IDisposable
         uiManager.GameplayUIController.HideCleanProgress();
         uiManager.GameplayUIController.HideAssembleProgress();
         uiManager.GameplayUIController.HideHoldProgress();
-
-        _ = sceneLoader.LoadSceneAsync(
-            targetScene,
-            config.minLoadingScreenDuration
-        );
+        AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Finish);
+        sceneLoader.LoadSceneAsync(targetScene, config.minLoadingScreenDuration);
     }
 
     private void HandleCleaningFinished()
@@ -72,5 +69,6 @@ public class GameplayManager : IInitializable, IDisposable
         uiManager.GameplayUIController.HideAssembleProgress();
         uiManager.ShowEndgameUI();
         GameEvents.RaiseGameEnded();
+        AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Finish);
     }
 }
