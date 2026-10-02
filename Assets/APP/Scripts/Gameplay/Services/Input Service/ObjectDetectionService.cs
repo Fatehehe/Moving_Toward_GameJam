@@ -44,14 +44,24 @@ public class ObjectDetectionService : IInitializable, IDisposable
         {
             currentInteractable?.OnInteractEnded();
             currentInteractable = newTarget;
-
-            // if (currentInteractable != null)
-            // {
-            //     Debug.Log("detecting object: " + currentInteractable.GetType().Name);
-            // }
-
             currentInteractable?.OnInteractDetected();
             OnInteractDetected?.Invoke(currentInteractable);
+        }
+
+        if (newTarget != null)
+        {
+            if (newTarget is IDraggable)
+            {
+                CursorController.instance?.SetCursorState(CursorState.GrabOpen);
+            }
+            else
+            {
+                CursorController.instance?.SetCursorState(CursorState.Hover);
+            }
+        }
+        else
+        {
+            CursorController.instance?.SetCursorState(CursorState.DefaultRounded);
         }
     }
 
@@ -59,6 +69,12 @@ public class ObjectDetectionService : IInitializable, IDisposable
     {
         this.isUsed = isUsed;
         OnInteractDetected?.Invoke(currentInteractable);
+
+        if (currentInteractable is IDraggable)
+        {
+            if (isUsed) CursorController.instance?.SetCursorState(CursorState.GrabClose);
+            else CursorController.instance?.SetCursorState(CursorState.GrabOpen);
+        }
     }
 
     public bool TryRaycast(Vector2 screenPos, out RaycastHit hit)

@@ -29,6 +29,12 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
+
+        CursorController.instance?.UnlockCursorState();
+        CursorController.instance?.ClearOverrideCursor();
+        CursorController.instance?.SetCursorState(CursorState.DefaultRounded);
+
+        input.ChangeInputState(InputStateType.UI);
         mainMenuUIController.SetActive(true);
 
         MainMenuEvents.OnNewGame += OnRequestNewGameGame;

@@ -96,10 +96,10 @@ public class ToolService : IInitializable, IDisposable, ITickable
         {
             // Gunakan posisi mouse saat ini untuk mendeteksi apakah mengenai kotoran
             mousePos = inputSystemService.GetMousePosition();
-            Debug.Log("Cleaning before");
+            // Debug.Log("Cleaning before");
             if (surfaceDetectionService.DetectSurface(mousePos))
             {
-                Debug.Log("Cleaning after");
+                // Debug.Log("Cleaning after");
                 isCleaning = true;
                 movementTimer = MOVEMENT_TIMEOUT;
                 ProcessCleaning();
@@ -143,8 +143,8 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
         // TODO: Ubah kursor menjadi gambar tool (Texture2D Brush-mu)
         // Cursor.SetCursor(((IToolBrush)tool).GetBrush, Vector2.zero, CursorMode.Auto);
-
-        Debug.Log("Masuk Mode Tool: " + tool.GetType().Name);
+        CursorController.instance?.LockCursorState(CursorState.Crosshair);
+        // Debug.Log("Masuk Mode Tool: " + tool.GetType().Name);
     }
 
     private void ReturnCurrentTool()
@@ -162,8 +162,10 @@ public class ToolService : IInitializable, IDisposable, ITickable
 
         // TODO: Kembalikan kursor ke default
         // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        CursorController.instance?.UnlockCursorState();
+        CursorController.instance?.SetCursorState(CursorState.DefaultRounded);
 
-        Debug.Log("Keluar Mode Tool.");
+        // Debug.Log("Keluar Mode Tool.");
     }
 
     private void ProcessCleaning()

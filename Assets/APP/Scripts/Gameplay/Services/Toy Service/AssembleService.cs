@@ -88,7 +88,6 @@ public class AssembleService : IInitializable, IDisposable
         }
         else
         {
-            // TAHAN: GAK BISA MERAKIT (ASSEMBLE) JIKA CLEANING BELUM SELESAI
             if (!isAssemblePhase) return false;
 
             IToyPart outermostPart = currentAssembleList[currentAssembleList.Count - 1];

@@ -15,6 +15,11 @@ public class GameplayUIController : BaseMenuController
         base.SetActive(isActive);
     }
 
+    public void ShowCautionText()
+    {
+        if (failedContainer != null) failedContainer.SetActive(true);
+    }
+
     public void ShowCleanProgress()
     {
         if (cleanProgressBarUI != null) cleanProgressBarUI.Show();

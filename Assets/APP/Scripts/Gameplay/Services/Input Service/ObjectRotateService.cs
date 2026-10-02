@@ -66,7 +66,7 @@ public class ObjectRotateService : IInitializable, IDisposable
         lastMousePos = pos;
 
         OnRotateStarted?.Invoke();
-        // CursorController.instance?.SetOverrideCursor(CursorState.Rotate);
+        CursorController.instance?.SetOverrideCursor(CursorState.Rotate);
     }
 
     private void StopRotation()
@@ -76,7 +76,7 @@ public class ObjectRotateService : IInitializable, IDisposable
             isRotating = false;
 
             OnRotateEnded?.Invoke();
-            // CursorController.instance?.ClearOverrideCursor();
+            CursorController.instance?.ClearOverrideCursor();
         }
     }
 }
