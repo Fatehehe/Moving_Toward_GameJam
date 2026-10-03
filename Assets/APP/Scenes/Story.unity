@@ -3056,7 +3056,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The opportunity came when I was studying in the living room. My pen fell and rolled under the cabinet. When I looked under to get it back, I saw multiple matryoshkas under there. I grabbed my pen and the matryoshkas. \u201CIs this yours, Misha?\u201D"
+  m_text: "The opportunity came when I was studying in the living room. My pen fell and rolled under the sofa. When I looked under to get it back, I saw multiple matryoshkas under there. I grabbed my pen and the matryoshkas. \u201CIs this yours, Misha?\u201D"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2ed3cb5592c73cc478df7268f8002121, type: 2}
   m_sharedMaterial: {fileID: -828601511121429308, guid: 2ed3cb5592c73cc478df7268f8002121, type: 2}
