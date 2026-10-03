@@ -3465,9 +3465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Yusuf Al-Bani Muharram
-
-'
+  m_text: Winda Kartika Laoli
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ba8d2b6df2ecd44b1a24d14092d2121c, type: 2}
   m_sharedMaterial: {fileID: 7728036518594983819, guid: ba8d2b6df2ecd44b1a24d14092d2121c, type: 2}
@@ -3654,7 +3652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c2ff234bdffaa4ba69c1c6c84e80c96f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b0f412fd61c24779bdb37b81aae4b37, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

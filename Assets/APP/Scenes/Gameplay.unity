@@ -12511,7 +12511,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &2470146556694119637
@@ -14008,7 +14008,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!1 &7398634332891308335
@@ -14275,7 +14275,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &8311268081159058157
@@ -14385,7 +14385,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &8472481705477321867
@@ -14488,7 +14488,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &8477152201872795959
@@ -14771,7 +14771,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &9024043674420002326
@@ -14837,7 +14837,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!64 &9028304212189046017
@@ -14928,7 +14928,7 @@ MonoBehaviour:
   paintedPixel: 0
   progress: 0
   isDirtRemoved: 0
-  forceClearTreshold: 99
+  forceClearTreshold: 97
   maskTexturePropertyName: _SubMask
   maskTexture: {fileID: 2800000, guid: ce8e3c2458f27401995288cf3aa8aab1, type: 3}
 --- !u!1660057539 &9223372036854775807
