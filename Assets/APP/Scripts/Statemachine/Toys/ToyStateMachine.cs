@@ -5,6 +5,8 @@ public class ToyStateMachine : StateMachine, IInteractable, IDraggable, IToyPart
 {
     [SerializeField] private string pieceId;
     [SerializeField] private ParentSlot parentSlot;
+    [field: SerializeField] public Animator Animator { get; private set; }
+
 
     public string PieceId => pieceId;
     public ParentSlot ParentSlot => parentSlot;

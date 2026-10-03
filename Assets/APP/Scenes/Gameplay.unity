@@ -2760,6 +2760,7 @@ MonoBehaviour:
   parentSlot:
     parentId: 
     isOccupied: 0
+  <Animator>k__BackingField: {fileID: 3136883448156667216}
 --- !u!1 &580586478
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,6 +3161,7 @@ MonoBehaviour:
   parentSlot:
     parentId: Part2
     isOccupied: 0
+  <Animator>k__BackingField: {fileID: 976168680279697114}
 --- !u!1 &655554768
 GameObject:
   m_ObjectHideFlags: 0
@@ -6619,6 +6621,7 @@ MonoBehaviour:
   parentSlot:
     parentId: Part3
     isOccupied: 0
+  <Animator>k__BackingField: {fileID: 7851636822757472848}
 --- !u!1 &1346008383
 GameObject:
   m_ObjectHideFlags: 0
@@ -10409,6 +10412,7 @@ MonoBehaviour:
   parentSlot:
     parentId: Part1
     isOccupied: 0
+  <Animator>k__BackingField: {fileID: 919132147665091706}
 --- !u!1 &1993311987
 GameObject:
   m_ObjectHideFlags: 0
