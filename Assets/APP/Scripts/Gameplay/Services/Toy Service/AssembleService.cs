@@ -167,8 +167,8 @@ public class AssembleService : IInitializable, IDisposable
         // Hanya munculkan pesan kalau pemain mencoba "merakit" (drop di dekat target)
         if (distance <= 2f)
         {
-            if (!isAssemblePhase) return "Bersihkan semua kotoran terlebih dahulu!";
-            if (!outermostPart.IsParentAvailable(toyPart.PieceId)) return "Urutan pemasangan salah!";
+            if (!isAssemblePhase) return "You need to clean all the Matryoshka!";
+            if (!outermostPart.IsParentAvailable(toyPart.PieceId)) return "Wrong assembly order!";
         }
 
         return string.Empty; // Kosong berarti aman / tidak ada pelanggaran

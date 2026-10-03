@@ -100,6 +100,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     {
         if (isGameEnded) return;
         currentInteract = interact;
+        Debug.Log($"[ObjectInteractionManager] HandleInteractDetected: {interact}");
     }
 
     private bool IsInteractValid()
@@ -145,7 +146,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
     private void HandleDragStart(Vector2 vector)
     {
         if (!IsInteractValid()) return;
-
+        Debug.Log($"[ObjectInteractionManager] HandleDragStart: {currentInteract}");
         detectionService.SetInteractObjectUsed(true);
         Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
         OnDragStarted?.Invoke(currentInteract, worldPos);
@@ -153,6 +154,8 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
     private void HandleDragPerformed(Vector2 vector)
     {
+        Debug.Log($"[ObjectInteractionManager] HandleDragPerformed: {currentInteract}");
+
         if (!IsInteractValid()) return;
         Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
         OnDragPerformed?.Invoke(currentInteract, worldPos);
@@ -160,6 +163,7 @@ public class ObjectInteractionManager : IInitializable, IDisposable
 
     private void HandleDragEnded(Vector2 vector)
     {
+        Debug.Log($"[ObjectInteractionManager] HandleDragEnded: {currentInteract}");
         if (IsInteractValid())
         {
             Vector3 worldPos = GetInspectionPlaneWorldPosition(vector);
