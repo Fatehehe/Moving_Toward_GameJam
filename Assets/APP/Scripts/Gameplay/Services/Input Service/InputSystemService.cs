@@ -15,8 +15,9 @@ public class InputSystemService : IInitializable, IDisposable, ITickable
 
     public event Action OnRightPressStarted;
     public event Action OnRightPressEnded;
-
     public event Action<float> OnScrollPerformed;
+
+    public Vector2 mousePosition = Vector2.zero;
 
     [Inject]
     public InputSystemService(PlayerInputSystem inputSystem)
@@ -60,6 +61,7 @@ public class InputSystemService : IInitializable, IDisposable, ITickable
 
     private void HandleMouseMove(InputAction.CallbackContext context)
     {
+        mousePosition = context.ReadValue<Vector2>();
         OnMouseMoved?.Invoke(context.ReadValue<Vector2>());
     }
 
@@ -80,4 +82,5 @@ public class InputSystemService : IInitializable, IDisposable, ITickable
     private void HandleRightPressCanceled(InputAction.CallbackContext context) => OnRightPressEnded?.Invoke();
 
     public void ChangeInputState(InputStateType state) => inputSystem.ChangeInputState(state);
+    public Vector2 GetMousePosition() => mousePosition;
 }

@@ -19,8 +19,8 @@ public class ObjectPressService : IInitializable, IDisposable, ITickable
     public event Action OnPressEnded;
 
     public event Action<float, Vector2> OnHoldPerformed;
-    public event Action<Vector2> OnHoldCompleted;
-    public event Action<Vector2> OnHoldCanceled;
+    public event Action OnHoldCompleted;
+    public event Action OnHoldCanceled;
 
     [Inject]
     public ObjectPressService(InputSystemService inputSystemService, GameConfigData config)
@@ -64,11 +64,11 @@ public class ObjectPressService : IInitializable, IDisposable, ITickable
 
         float holdTime = heldTime - config.holdDelay;
 
-        OnHoldPerformed?.Invoke(holdTime, currentMousePosition);
+        OnHoldPerformed?.Invoke(holdTime, inputSystemService.GetMousePosition());
 
         if (holdTime >= config.holdDuration)
         {
-            OnHoldCompleted?.Invoke(currentMousePosition);
+            OnHoldCompleted?.Invoke();
             CancelHold();
         }
     }
@@ -105,7 +105,7 @@ public class ObjectPressService : IInitializable, IDisposable, ITickable
         isPressing = false;
         isHolding = false;
 
-        OnHoldCanceled?.Invoke(currentMousePosition);
+        OnHoldCanceled?.Invoke();
     }
 
     public Vector2 GetCurrentPos() => currentMousePosition;

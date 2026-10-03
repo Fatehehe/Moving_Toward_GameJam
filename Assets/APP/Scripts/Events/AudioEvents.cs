@@ -21,17 +21,4 @@ public static class AudioEvents
     public static void TriggerPlayBGMGameplay(AudioKey audioKey) => OnPlayBGMGameplay?.Invoke(audioKey);
     public static void TriggerPlayCustomSFX(AudioKey audioKey) => OnPlayCustomSFX?.Invoke(audioKey);
     public static void TriggerStopBGM() => OnStopBGM?.Invoke();
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void Init()
-    {
-        OnPlayButtonSFX = null;
-        OnPlayToggleSFX = null;
-        OnPlaySliderSFX = null;
-        OnPlayUIComponentSelectedSFX = null;
-        OnPlayBGMMainMenu = null;
-        OnPlayBGMGameplay = null;
-        OnPlayCustomSFX = null;
-        OnStopBGM = null;
-    }
 }

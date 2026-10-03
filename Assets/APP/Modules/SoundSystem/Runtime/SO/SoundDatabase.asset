@@ -16,24 +16,24 @@ MonoBehaviour:
   - id: bgm
     items:
     - key: BGM_Home
-      value: {fileID: 0}
+      value: {fileID: 8300000, guid: 7aef7a0da5ba647b197feb9e8e907bdd, type: 3}
       type: 0
   - id: sfx
     items:
     - key: SFX_Assemble
-      value: {fileID: 8300000, guid: eed1467d96c734c0d973df694994c274, type: 3}
+      value: {fileID: 8300000, guid: 729767a46b112424db4dac0a83d21be9, type: 3}
       type: 1
     - key: SFX_Camera
       value: {fileID: 8300000, guid: c241abf19b997694e88ecc3127ffb029, type: 3}
       type: 1
     - key: SFX_Brush
-      value: {fileID: 8300000, guid: dcdf9a00707ad4fdf96552b6a3163d15, type: 3}
+      value: {fileID: 8300000, guid: 08e6d85fb256b42eeb12ba4b55a0b05b, type: 3}
       type: 1
     - key: SFX_Chisel
       value: {fileID: 8300000, guid: 24f8029b14dd54306a5b97ab5f288a0c, type: 3}
       type: 1
     - key: SFX_Finish
-      value: {fileID: 8300000, guid: 0c353ebf1e00d4cafbda08945bf21dcc, type: 3}
+      value: {fileID: 8300000, guid: 7b3982651b18246d5abfed69850a31cb, type: 3}
       type: 1
   - id: ui
     items:
