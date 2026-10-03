@@ -21,7 +21,7 @@ MonoBehaviour:
   - id: sfx
     items:
     - key: SFX_Assemble
-      value: {fileID: 8300000, guid: eed1467d96c734c0d973df694994c274, type: 3}
+      value: {fileID: 8300000, guid: 729767a46b112424db4dac0a83d21be9, type: 3}
       type: 1
     - key: SFX_Camera
       value: {fileID: 8300000, guid: c241abf19b997694e88ecc3127ffb029, type: 3}

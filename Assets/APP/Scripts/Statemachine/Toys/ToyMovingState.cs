@@ -40,6 +40,7 @@ public class ToyMovingState : ToyBaseState
 
         moveSequence.OnComplete(() =>
         {
+            AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Assemble);
             stateMachine.SwitchState(new ToyAssembledState(stateMachine));
         });
     }

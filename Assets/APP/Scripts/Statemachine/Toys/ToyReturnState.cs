@@ -37,6 +37,7 @@ public class ToyReturnState : ToyBaseState
         returnSequence.OnComplete(() =>
         {
             // State machine script kembali ke ToyIdleState
+            AudioEvents.TriggerPlayCustomSFX(Modules.SoundSystems.AudioKey.SFX_Assemble);
             stateMachine.SwitchState(new ToyIdleState(stateMachine));
         });
     }
